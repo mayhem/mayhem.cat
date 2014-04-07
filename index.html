@@ -3,15 +3,15 @@
   <head>
     <title>Benvinguts a mayhem.cat!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/mayhem.cat.css">
   </head>
   <body>
-     <canvas id="canvas" width="800" height="800">
+     <canvas id="canvas" width="800" height="800" style="background-color: #FF8A00">
        Yer browser sucks, buddy. @MayhemBCN
      </canvas>
 <script type="text/javascript">
 var minsize = 0.001;
+var fractal_margin = 50;
 
 init();
 
@@ -19,8 +19,23 @@ function init()
 {
     var example = document.getElementById('canvas');
     var ctx = example.getContext('2d');
+    ctx.canvas.width  = window.innerWidth;
+    ctx.canvas.height = window.innerHeight;
 
-    draw_fractal(ctx, 200);
+    if (window.innerHeight > window.innerWidth)
+    {
+        size = (window.innerWidth / 2) - fractal_margin;
+        offset_x = fractal_margin;
+        offset_y = (window.innerHeight / 2) - size;
+    }
+    else
+    {
+        size = (window.innerHeight / 2) - fractal_margin;
+        offset_x = (window.innerWidth / 2) - size;
+        offset_y = fractal_margin;
+    }
+
+    draw_fractal(ctx, size, offset_x, offset_y);
 }
 
 // complex numbers
@@ -73,7 +88,7 @@ function Kiss(a, b, c, initial) {
 }
  
 // called once on load
-function draw_fractal(ctx, size) {
+function draw_fractal(ctx, size, offset_x, offset_y) {
  
   // initial bounding circle
   var b = new Circle(0, 0, -1, 0);
@@ -128,7 +143,7 @@ function draw_fractal(ctx, size) {
  
   var i;
   for (i = 0; i < draw.length; i = i + 1) {
-      draw[i].draw(ctx, size);
+      draw[i].draw(ctx, size, offset_x, offset_y);
   }
 } // init()
  
@@ -140,9 +155,16 @@ function Circle(x, y, r, colour) {
   this.r = r;
   this.colour = colour;
   // convert to svg
-  this.draw = function(ctx, size) {
+  this.draw = function(ctx, size, offset_x, offset_y) {
       ctx.beginPath();
-      ctx.arc((this.x * size) + size,(this.y * size) + size,Math.abs(this.r * size),0,2*Math.PI);
+      ctx.arc((this.x * size) + size + offset_x,(this.y * size) + size + offset_y,Math.abs(this.r * size),0,2*Math.PI);
+      if (this.r < 0)
+          ctx.fillStyle = '#FFCC00';
+      else
+          ctx.fillStyle = 'white';
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#CCCCC';
       ctx.stroke();
   };
 } // Circle()
