@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Benvinguts a mayhem.cat!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/mayhem.cat.css">
+  </head>
+  <body>
+     <canvas id="canvas" width="700" height="700">
+       Yer browser sucks, buddy. @MayhemBCN
+     </canvas>
+<script type="text/javascript">
+var size = 768; // should match 'viewBox'
+var minsize = 0.001;
+
+init();
+
+function init() 
+{
+    var example = document.getElementById('canvas');
+    var ctx = example.getContext('2d');
+
+    draw_fractal(ctx);
+}
+
+// convert internal coordinates and lengths to SVG
+function coord(x) { return x*size/2 + size/2; }
+function dist(d) { return d*size/2; }
+ 
+// complex numbers
+function C(r,i)    { this.r = r; this.i = i; }
+function Cconj(c)  { return new C(c.r, -c.i); }
+function Cadd(c,d) { return new C(c.r+d.r,c.i+d.i); }
+function Csub(c,d) { return new C(c.r-d.r,c.i-d.i); }
+function Cmul(c,d) { return new C(c.r*d.r-c.i*d.i,c.r*d.i+c.i*d.r); }
+function Csqrt(c)  { return new C(Math.sqrt(Math.sqrt(c.r*c.r+c.i*c.i)) * Math.cos(Math.atan2(c.i,c.r)/2),
+                                  Math.sqrt(Math.sqrt(c.r*c.r+c.i*c.i)) * Math.sin(Math.atan2(c.i,c.r)/2)); }
+ 
+// sort points into order
+function clockwise(a, b, c) {
+  var x1 = a.x-b.x; var y1 = a.y-b.y;
+  var x2 = c.x-b.x; var y2 = c.y-b.y;
+  if ((x1*y2-y1*x2) >= 0) return [a,b,c]; else return [a,c,b];
+}
+ 
+// compute the 4th circle touching 3 circles, each of which touch the other two
+function Kiss(a, b, c, initial) {
+  var k1 = 1 / a.r; var z1 = new C(a.x, a.y); var kz1 = Cmul(new C(k1,0),z1);
+  var k2 = 1 / b.r; var z2 = new C(b.x, b.y); var kz2 = Cmul(new C(k2,0),z2);
+  var k3 = 1 / c.r; var z3 = new C(c.x, c.y); var kz3 = Cmul(new C(k3,0),z3);
+  var k4p = k1 + k2 + k3 + 2*Math.sqrt(k1*k2 + k2*k3 + k3*k1);
+  var k4m = k1 + k2 + k3 - 2*Math.sqrt(k1*k2 + k2*k3 + k3*k1);
+  var kz4p = Cadd(Cadd(Cadd(kz1,kz2),kz3),Cmul(new C(2,0),
+    Csqrt(Cadd(Cadd(Cmul(kz1,kz2),Cmul(kz2,kz3)),Cmul(kz3,kz1)))));
+  var kz4m = Csub(Cadd(Cadd(kz1,kz2),kz3),Cmul(new C(2,0),
+    Csqrt(Cadd(Cadd(Cmul(kz1,kz2),Cmul(kz2,kz3)),Cmul(kz3,kz1)))));
+  var k4;
+  var kz4;
+  var k4b;
+  var kz4b;
+  var cs = new Array();
+  if (k4p > k4m) { k4 = k4p; kz4 = kz4p; k4b = k4m; kz4b = kz4m; }
+  else           { k4 = k4m; kz4 = kz4m; k4b = k4p; kz4b = kz4p; }
+  var cc = new Circle(kz4.r/k4,kz4.i/k4,Math.abs(1/k4), 6 - a.colour - b.colour - c.colour);
+  var dx = a.x - cc.x
+  var dy = a.y - cc.y
+  var dr = a.r + cc.r
+  if (Math.abs(dx * dx + dy *dy - dr * dr) > 0.0001) {
+    cc = new Circle(kz4b.r/k4,kz4b.i/k4,Math.abs(1/k4), 6 - a.colour - b.colour - c.colour);
+  }
+  cs[cs.length] = cc;
+  if (initial) {
+    cc = new Circle(kz4b.r/k4b,kz4b.i/k4b,Math.abs(1/k4b), 6 - a.colour - b.colour - c.colour);
+    cs[cs.length] = cc;
+  }
+  return cs;
+}
+ 
+// called once on load
+function draw_fractal(ctx) {
+ 
+  // initial bounding circle
+  var b = new Circle(0, 0, -1, 0);
+ 
+  // insert two randomly positioned touching circles
+  var tr = 1-Math.random()/2;
+  var pa = Math.PI/2 - Math.asin(Math.random()*(1-tr)/tr);
+  var px = tr * Math.cos(pa);
+  var py = tr * Math.sin(pa);
+  var pr = 1 - tr;
+  var qr = (1 - pr) * (1 - Math.cos(pa + Math.PI/2))
+         / (1 + pr - (1 - pr) * Math.cos(pa + Math.PI/2));
+  var qx = 0;
+  var qy = qr - 1;
+  var p = new Circle(px, py, pr, 1);
+  var q = new Circle(qx, qy, qr, 2);
+ 
+  // a queue to contain triples of touching circles
+  var queue = new Array();
+  var cs = Kiss(b,p,q, true);
+  queue[queue.length] = [b,p,cs[0]];
+  queue[queue.length] = [b,cs[0],q];
+  queue[queue.length] = [cs[0],p,q];
+  queue[queue.length] = [b,p,cs[1]];
+  queue[queue.length] = [b,cs[1],q];
+  queue[queue.length] = [cs[1],p,q];
+ 
+  // a queue to contain circles to draw
+  var draw = new Array();
+  draw[draw.length] = b;
+  draw[draw.length] = p;
+  draw[draw.length] = q;
+  draw[draw.length] = cs[0];
+  draw[draw.length] = cs[1];
+ 
+  // add more circles to the draw queue
+  // adding new triples to the compute queue
+  var c;
+  for (c = 0; c < Math.min(queue.length, 100); c = c + 1) {
+    var c0 = queue[c][0];
+    var c1 = queue[c][1];
+    var c2 = queue[c][2];
+    var ncs = Kiss(c0,c1,c2);
+    var nc = ncs[0];
+    if (nc.r > minsize) {
+      queue[queue.length] = [nc,c1,c2];
+      queue[queue.length] = [c0,nc,c2];
+      queue[queue.length] = [c0,c1,nc];
+      draw[draw.length] = nc;
+    }
+  }
+ 
+  var i;
+  for (i = 0; i < draw.length; i = i + 1) {
+      draw[i].draw(ctx);
+  }
+} // init()
+ 
+// circle class
+function Circle(x, y, r, colour) {
+  // properties of a circle
+  this.x = x;
+  this.y = y;
+  this.r = r;
+  this.colour = colour;
+  // convert to svg
+  this.draw = function(ctx) {
+      if (this.r <= 0)
+          return;
+      ctx.beginPath();
+      ctx.arc((this.x * 200) + 200,(this.y * 200) + 200,this.r * 200,0,2*Math.PI);
+      ctx.stroke();
+  };
+} // Circle()
+
+</script>
+</body>
+</html>
