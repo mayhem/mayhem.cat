@@ -7,11 +7,10 @@
     <link rel="stylesheet" type="text/css" href="css/mayhem.cat.css">
   </head>
   <body>
-     <canvas id="canvas" width="700" height="700">
+     <canvas id="canvas" width="800" height="800">
        Yer browser sucks, buddy. @MayhemBCN
      </canvas>
 <script type="text/javascript">
-var size = 768; // should match 'viewBox'
 var minsize = 0.001;
 
 init();
@@ -21,13 +20,9 @@ function init()
     var example = document.getElementById('canvas');
     var ctx = example.getContext('2d');
 
-    draw_fractal(ctx);
+    draw_fractal(ctx, 200);
 }
 
-// convert internal coordinates and lengths to SVG
-function coord(x) { return x*size/2 + size/2; }
-function dist(d) { return d*size/2; }
- 
 // complex numbers
 function C(r,i)    { this.r = r; this.i = i; }
 function Cconj(c)  { return new C(c.r, -c.i); }
@@ -78,7 +73,7 @@ function Kiss(a, b, c, initial) {
 }
  
 // called once on load
-function draw_fractal(ctx) {
+function draw_fractal(ctx, size) {
  
   // initial bounding circle
   var b = new Circle(0, 0, -1, 0);
@@ -117,7 +112,7 @@ function draw_fractal(ctx) {
   // add more circles to the draw queue
   // adding new triples to the compute queue
   var c;
-  for (c = 0; c < Math.min(queue.length, 100); c = c + 1) {
+  for (c = 0; c < Math.min(queue.length, 150); c = c + 1) {
     var c0 = queue[c][0];
     var c1 = queue[c][1];
     var c2 = queue[c][2];
@@ -133,7 +128,7 @@ function draw_fractal(ctx) {
  
   var i;
   for (i = 0; i < draw.length; i = i + 1) {
-      draw[i].draw(ctx);
+      draw[i].draw(ctx, size);
   }
 } // init()
  
@@ -145,11 +140,9 @@ function Circle(x, y, r, colour) {
   this.r = r;
   this.colour = colour;
   // convert to svg
-  this.draw = function(ctx) {
-      if (this.r <= 0)
-          return;
+  this.draw = function(ctx, size) {
       ctx.beginPath();
-      ctx.arc((this.x * 200) + 200,(this.y * 200) + 200,this.r * 200,0,2*Math.PI);
+      ctx.arc((this.x * size) + size,(this.y * size) + size,Math.abs(this.r * size),0,2*Math.PI);
       ctx.stroke();
   };
 } // Circle()
