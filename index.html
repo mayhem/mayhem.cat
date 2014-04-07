@@ -9,13 +9,21 @@
      <canvas id="canvas" width="800" height="800" style="background-color: #FF8A00">
        Yer browser sucks, buddy. @MayhemBCN
      </canvas>
+<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 var minsize = 0.001;
 var fractal_margin = 50;
 
-init();
+$(document).ready(function() 
+{
+    init();
+});
 
-function init() 
+$( window ).resize(function() {
+    init();
+});
+
+function init()
 {
     var example = document.getElementById('canvas');
     var ctx = example.getContext('2d');
