@@ -6,29 +6,52 @@
     <link rel="stylesheet" type="text/css" href="css/mayhem.cat.css">
   </head>
   <body>
-     <canvas id="canvas" width="800" height="800" style="background-color: #FF8A00">
+     <canvas id="canvas" width="800" height="800">
        Yer browser sucks, buddy. @MayhemBCN
      </canvas>
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="js/rgbhsv.js"></script>
 <script type="text/javascript">
 var minsize = 0.001;
 var fractal_margin = 50;
 
+var hue = Math.random();
+var saturation = (Math.random() * .3) + .45;
+var value = .95;
+
+var colors = new Array();
+colors[colors.length] = hsv_to_color(hue, saturation, value);  
+console.log(colors[0])
+colors[colors.length] = hsv_to_color(hue + .1, saturation, value);  
+console.log(colors[1])
+colors[colors.length] = hsv_to_color(hue - .1, saturation, value);  
+console.log(colors[2])
+
+bg_color = hsv_to_color(hue, .5, .5);  
+
 $(document).ready(function() 
 {
-    init();
+    init_fractal();
 });
 
 $( window ).resize(function() {
     init();
 });
 
-function init()
+function hsv_to_color(h, s, v)
+{
+    rgb = hsvToRgb(h, s, v);
+    return "rgb(" + Math.floor(rgb[0]) + "," + Math.floor(rgb[1]) + "," + Math.floor(rgb[2]) + ")";
+}
+
+function init_fractal()
 {
     var example = document.getElementById('canvas');
     var ctx = example.getContext('2d');
     ctx.canvas.width  = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
+
+    $("body").css('background-color', bg_color);
 
     if (window.innerHeight > window.innerWidth)
     {
@@ -100,10 +123,12 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
  
   // initial bounding circle
   var b = new Circle(0, 0, -1, 0);
- 
+
+  r1 = Math.random() * .2 + .45;
+  r2 = Math.random() * .2 + .45;
   // insert two randomly positioned touching circles
-  var tr = 1-Math.random()/2;
-  var pa = Math.PI/2 - Math.asin(Math.random()*(1-tr)/tr);
+  var tr = r1;
+  var pa = Math.PI/2 - Math.asin(r2*(1-tr)/tr);
   var px = tr * Math.cos(pa);
   var py = tr * Math.sin(pa);
   var pr = 1 - tr;
@@ -131,11 +156,12 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
   draw[draw.length] = q;
   draw[draw.length] = cs[0];
   draw[draw.length] = cs[1];
- 
+
+  if (1) {
   // add more circles to the draw queue
   // adding new triples to the compute queue
   var c;
-  for (c = 0; c < Math.min(queue.length, 150); c = c + 1) {
+  for (c = 0; c < Math.min(queue.length, 350); c = c + 1) {
     var c0 = queue[c][0];
     var c1 = queue[c][1];
     var c2 = queue[c][2];
@@ -148,10 +174,12 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
       draw[draw.length] = nc;
     }
   }
+  }
  
   var i;
-  for (i = 0; i < draw.length; i = i + 1) {
-      draw[i].draw(ctx, size, offset_x, offset_y);
+  for (i = 0; i < draw.length; i = i + 1) 
+  {
+      draw[i].draw(ctx, size, offset_x, offset_y, colors[i % colors.length]);
   }
 } // init()
  
@@ -163,16 +191,16 @@ function Circle(x, y, r, colour) {
   this.r = r;
   this.colour = colour;
   // convert to svg
-  this.draw = function(ctx, size, offset_x, offset_y) {
+  this.draw = function(ctx, size, offset_x, offset_y, color) {
       ctx.beginPath();
       ctx.arc((this.x * size) + size + offset_x,(this.y * size) + size + offset_y,Math.abs(this.r * size),0,2*Math.PI);
       if (this.r < 0)
-          ctx.fillStyle = '#FFCC00';
+          ctx.fillStyle = "white";  // circle background color
       else
-          ctx.fillStyle = 'white';
+          ctx.fillStyle = color;
       ctx.fill();
       ctx.lineWidth = 2;
-      ctx.strokeStyle = '#CCCCC';
+      ctx.strokeStyle = 'white';
       ctx.stroke();
   };
 } // Circle()
