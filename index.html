@@ -6,9 +6,12 @@
     <link rel="stylesheet" type="text/css" href="css/mayhem.cat.css">
   </head>
   <body>
-     <canvas id="canvas" width="800" height="800">
-       Yer browser sucks, buddy. @MayhemBCN
-     </canvas>
+     <div id="canvas-wrap">
+         <canvas id="canvas" width="800" height="800">
+           Yer browser sucks, buddy. @MayhemBCN
+         </canvas>
+         <div id="overlay"></div>
+     </div>
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="js/rgbhsv.js"></script>
 <script type="text/javascript">
@@ -35,7 +38,7 @@ $(document).ready(function()
 });
 
 $( window ).resize(function() {
-    init();
+    init_fractal();
 });
 
 function hsv_to_color(h, s, v)
@@ -197,11 +200,35 @@ function Circle(x, y, r, colour) {
       if (this.r < 0)
           ctx.fillStyle = "white";  // circle background color
       else
-          ctx.fillStyle = color;
+          if (this.r > .5)
+              ctx.fillStyle = "blue";
+          else
+              ctx.fillStyle = color;
       ctx.fill();
       ctx.lineWidth = 2;
       ctx.strokeStyle = 'white';
       ctx.stroke();
+
+      if (this.r > .5)
+      { 
+          console.log("circle x: " + (this.x * size) + size + offset_x);
+          console.log("circle y: " + (this.y * size) + size + offset_y);
+          console.log("x: " + this.x);
+          console.log("y: " + this.y);
+          console.log("r: " + this.r);
+          console.log("s: " + size);
+          $("#overlay").append('<div style="background-color: red; position: fixed; top: ' 
+                         + Math.floor((this.y * size) + size + offset_y)
+                         + 'px; right: ' 
+                         + Math.floor((this.x * size) + size + offset_x)
+                         + 'px; border-radius: ' 
+                         + Math.floor(Math.abs(this.r * size))
+                         + 'px; width: ' 
+                         + Math.floor(this.r * size * 2)
+                         + 'px; height: ' 
+                         + Math.floor(this.r * size * 2)
+                         + 'px">Boo!</div>')
+      }
   };
 } // Circle()
 
