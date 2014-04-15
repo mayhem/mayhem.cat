@@ -18,6 +18,11 @@
 var minsize = 0.001;
 var fractal_margin = 50;
 
+var content_divs = ['flickr', 'hair', 'rob-aleta', 'musicbrainz', 'github', 'fsm'];
+var apikey = '8f77903e13559997f2609448bf039157';
+var userid = '81126501@N00';
+var hair_set_id = '72157621208033122';
+
 var hue = Math.random();
 var saturation = (Math.random() * .3) + .45;
 var value = .95;
@@ -178,11 +183,23 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
   }
  
   var i;
-  for (i = 0; i < draw.length; i = i + 1) 
+  var divs = new Array();
+  for (i = 0; i < draw.length; i++)
   {
-      draw[i].draw(ctx, size, offset_x, offset_y, colors[i % colors.length], !i);
+      circle_size = draw[i].draw(ctx, size, offset_x, offset_y, colors[i % colors.length], i);
+      if (circle_size > 0)
+          divs.push({ "id" : i, "size" : circle_size });
   }
-} // init()
+  divs.sort(function(a, b) {
+      return a.size < b.size;
+  });
+  for(i = 0; i < divs.length; i++)
+  {
+      $("#c" + divs[i].id).addClass(content_divs[i] + "-div");
+  }
+  flickr();
+  hair();
+} 
  
 // circle class
 function Circle(x, y, r, colour) {
@@ -191,14 +208,13 @@ function Circle(x, y, r, colour) {
   this.y = y;
   this.r = r;
   this.colour = colour;
-  // convert to svg
-  this.draw = function(ctx, size, offset_x, offset_y, color, is_background) {
+  this.draw = function(ctx, size, offset_x, offset_y, color, index) {
       x = Math.floor(((this.x + 1.0) * size) + offset_x);
       y = Math.floor(((this.y + 1.0) * size) + offset_y);
       r = Math.abs(Math.floor(size * this.r))
       ctx.beginPath();
       ctx.arc(x, y, r, 0,2*Math.PI);
-      if (is_background)
+      if (!index)
           ctx.fillStyle = "white";  // main circle background color
       else
           ctx.fillStyle = color;
@@ -208,11 +224,9 @@ function Circle(x, y, r, colour) {
       ctx.strokeStyle = 'white';
       ctx.stroke();
 
-      if (r > 100 && !is_background)
+      if (r > 50 && index)
       { 
-          console.log("this.r: " + this.r);
-          console.log("radius: " + r);
-          $("#overlay").append('<div class="circle-div rob-aleta-div" style="top: ' 
+          $("#overlay").append('<div id="c' + index + '" class="circle-div" style="top: ' 
                          + (y - r)
                          + 'px; left: ' 
                          + (x - r)
@@ -223,9 +237,32 @@ function Circle(x, y, r, colour) {
                          + 'px; height: ' 
                          + r* 2
                          + 'px"></div>')
+          return r;
       }
+      else
+          return 0;
   };
-} // Circle()
+} 
+
+function flickr()
+{
+    $.getJSON('http://api.flickr.com/services/rest/?&method=flickr.people.getPublicPhotos&api_key='+apikey+'&user_id='+userid+'&format=json&jsoncallback=?',
+    function(data){
+        item = data.photos.photo[0]; 
+        var purl = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_b_d.jpg';
+        $(".flickr-div").css('background-image', 'url(' + purl + ')');
+    });
+}
+
+function hair()
+{
+    $.getJSON('http://api.flickr.com/services/rest/?&method=flickr.photosets.getPhotos&api_key='+apikey+'&photoset_id='+hair_set_id+'&format=json&jsoncallback=?',
+    function(data){
+        item = data.photoset.photo[0]; 
+        var purl = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_b_d.jpg';
+        $(".hair-div").css('background-image', 'url(' + purl + ')');
+    });
+}
 
 </script>
 </body>

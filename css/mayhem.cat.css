@@ -45,3 +45,14 @@ html, body {
     background-image: url('../img/aleta-n-rob.jpg');
     background-color: white;
 }
+
+.musicbrainz-div {
+    background-image: url('../img/musicbrainz.png');
+    background-color: white;
+}
+
+.hair-div {
+    background-image: url('../img/flickr.gif');
+    background-color: white;
+}
+
