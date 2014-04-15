@@ -18,7 +18,7 @@
 var minsize = 0.001;
 var fractal_margin = 50;
 
-var content_divs = ['flickr', 'hair', 'rob-aleta', 'musicbrainz', 'github', 'fsm'];
+var content_divs = ['twitter', 'flickr', 'hair', 'rob-aleta', 'musicbrainz', 'github', 'fsm'];
 var apikey = '8f77903e13559997f2609448bf039157';
 var userid = '81126501@N00';
 var hair_set_id = '72157621208033122';
@@ -167,7 +167,7 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
   // add more circles to the draw queue
   // adding new triples to the compute queue
   var c;
-  for (c = 0; c < Math.min(queue.length, 350); c = c + 1) {
+  for (c = 0; c < Math.min(queue.length, 500); c = c + 1) {
     var c0 = queue[c][0];
     var c1 = queue[c][1];
     var c2 = queue[c][2];
