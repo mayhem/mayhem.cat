@@ -54,7 +54,6 @@ function init_fractal()
     ctx.canvas.height = window.innerHeight;
 
     $("body").css('background-color', bg_color);
-
     if (window.innerHeight > window.innerWidth)
     {
         size = Math.floor((window.innerWidth / 2) - fractal_margin);
@@ -213,7 +212,7 @@ function Circle(x, y, r, colour) {
       { 
           console.log("this.r: " + this.r);
           console.log("radius: " + r);
-          $("#overlay").append('<div style="position: fixed; top: ' 
+          $("#overlay").append('<div class="circle-div rob-aleta-div" style="top: ' 
                          + (y - r)
                          + 'px; left: ' 
                          + (x - r)
@@ -223,7 +222,7 @@ function Circle(x, y, r, colour) {
                          + r* 2
                          + 'px; height: ' 
                          + r* 2
-                         + 'px">Boo!</div>')
+                         + 'px"></div>')
       }
   };
 } // Circle()

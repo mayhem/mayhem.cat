@@ -12,3 +12,36 @@ html, body {
 #overlay { 
     position:absolute; 
 }
+
+.circle-div {
+    font-family: Helvetica, Arial, san-serif;
+    font-size: 25pt;
+    font-weight: bold;
+    color: white;
+    position: fixed;
+    text-align: center;
+    vertical-align: center;
+    overflow: hidden;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.github-div {
+    background-image: url('../img/octocat-border.jpg');
+    background-color: white;
+}
+
+.flickr-div {
+    background-image: url('../img/flickr.gif');
+    background-color: white;
+}
+
+.fsm-div {
+    background-image: url('../img/fsm.png');
+    background-color: white;
+}
+
+.rob-aleta-div {
+    background-image: url('../img/aleta-n-rob.jpg');
+    background-color: white;
+}
