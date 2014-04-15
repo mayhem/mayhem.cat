@@ -15,8 +15,6 @@ html, body {
 
 .circle-div {
     font-family: Helvetica, Arial, san-serif;
-    font-size: 25pt;
-    font-weight: bold;
     color: white;
     position: fixed;
     text-align: center;
@@ -59,5 +57,16 @@ html, body {
 .twitter-div {
     background-image: url('../img/twitter.png');
     background-color: white;
+    color: #333;
 }
 
+#tweet {
+    padding: 3em;
+    text-align: left;
+}
+
+#tweet-header {
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+}
