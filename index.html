@@ -24,11 +24,10 @@ var value = .95;
 
 var colors = new Array();
 colors[colors.length] = hsv_to_color(hue, saturation, value);  
-console.log(colors[0])
+
+// Todo: range check these
 colors[colors.length] = hsv_to_color(hue + .1, saturation, value);  
-console.log(colors[1])
 colors[colors.length] = hsv_to_color(hue - .1, saturation, value);  
-console.log(colors[2])
 
 bg_color = hsv_to_color(hue, .5, .5);  
 
@@ -58,16 +57,18 @@ function init_fractal()
 
     if (window.innerHeight > window.innerWidth)
     {
-        size = (window.innerWidth / 2) - fractal_margin;
+        size = Math.floor((window.innerWidth / 2) - fractal_margin);
         offset_x = fractal_margin;
-        offset_y = (window.innerHeight / 2) - size;
+        offset_y = Math.floor((window.innerHeight / 2) - size);
     }
     else
     {
-        size = (window.innerHeight / 2) - fractal_margin;
-        offset_x = (window.innerWidth / 2) - size;
+        size = Math.floor((window.innerHeight / 2) - fractal_margin);
+        offset_x = Math.floor((window.innerWidth / 2) - size);
         offset_y = fractal_margin;
     }
+    offset_x = 0;
+    offset_y = 0;
 
     draw_fractal(ctx, size, offset_x, offset_y);
 }
@@ -195,8 +196,11 @@ function Circle(x, y, r, colour) {
   this.colour = colour;
   // convert to svg
   this.draw = function(ctx, size, offset_x, offset_y, color) {
+      x_size = Math.floor(size * this.x)
+      y_size = Math.floor(size * this.y)
+      radius = Math.abs(Math.floor(size * this.r))
       ctx.beginPath();
-      ctx.arc((this.x * size) + size + offset_x,(this.y * size) + size + offset_y,Math.abs(this.r * size),0,2*Math.PI);
+      ctx.arc(x_size + size + offset_x,y_size + size + offset_y,radius,0,2*Math.PI);
       if (this.r < 0)
           ctx.fillStyle = "white";  // circle background color
       else
@@ -211,22 +215,20 @@ function Circle(x, y, r, colour) {
 
       if (this.r > .5)
       { 
-          console.log("circle x: " + (this.x * size) + size + offset_x);
-          console.log("circle y: " + (this.y * size) + size + offset_y);
-          console.log("x: " + this.x);
-          console.log("y: " + this.y);
-          console.log("r: " + this.r);
+          console.log("r: " + radius);
           console.log("s: " + size);
+          console.log("x_off: " + offset_x);
+          console.log("y_off: " + offset_y);
           $("#overlay").append('<div style="background-color: red; position: fixed; top: ' 
-                         + Math.floor((this.y * size) + size + offset_y)
-                         + 'px; right: ' 
-                         + Math.floor((this.x * size) + size + offset_x)
+                         + (offset_y + Math.floor(size / 2) + Math.floor(this.y * size))
+                         + 'px; left: ' 
+                         + (offset_x + Math.floor(size / 2) + Math.floor(this.x * size))
                          + 'px; border-radius: ' 
-                         + Math.floor(Math.abs(this.r * size))
+                         + Math.abs(radius)
                          + 'px; width: ' 
-                         + Math.floor(this.r * size * 2)
+                         + radius * 2
                          + 'px; height: ' 
-                         + Math.floor(this.r * size * 2)
+                         + radius * 2
                          + 'px">Boo!</div>')
       }
   };
