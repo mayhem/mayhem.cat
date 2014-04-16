@@ -186,7 +186,7 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
   var divs = new Array();
   for (i = 0; i < draw.length; i++)
   {
-      circle_size = draw[i].draw(ctx, size, offset_x, offset_y, colors[i % colors.length], i);
+      circle_size = draw[i].draw(ctx, size, offset_x, offset_y, colors[i % colors.length], i, i < content_divs.length + 2);
       if (circle_size > 0)
           divs.push({ "id" : i, "size" : circle_size });
   }
@@ -194,6 +194,8 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
       return a.size < b.size;
   });
   twitter_size = 0;
+  console.log(divs.length);
+  console.log(content_divs.length);
   for(i = 0; i < divs.length; i++)
   {
       $("#c" + divs[i].id).addClass(content_divs[i] + "-div");
@@ -212,7 +214,7 @@ function Circle(x, y, r, colour) {
   this.y = y;
   this.r = r;
   this.colour = colour;
-  this.draw = function(ctx, size, offset_x, offset_y, color, index) {
+  this.draw = function(ctx, size, offset_x, offset_y, color, index, make_div) {
       x = Math.floor(((this.x + 1.0) * size) + offset_x);
       y = Math.floor(((this.y + 1.0) * size) + offset_y);
       r = Math.abs(Math.floor(size * this.r))
@@ -228,18 +230,18 @@ function Circle(x, y, r, colour) {
       ctx.strokeStyle = 'white';
       ctx.stroke();
 
-      if (r > 50 && index)
+      if (r > 25 && index && make_div)
       { 
           $("#overlay").append('<div id="c' + index + '" class="circle-div" style="top: ' 
                          + (y - r)
                          + 'px; left: ' 
                          + (x - r)
                          + 'px; border-radius: ' 
-                         + (r-1)
+                         + (r-2)
                          + 'px; width: ' 
-                         + r* 2
+                         + ((r * 2) - 4)
                          + 'px; height: ' 
-                         + r* 2
+                         + ((r * 2) - 4)
                          + 'px"></div>')
           return r;
       }
