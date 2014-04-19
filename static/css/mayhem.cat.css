@@ -26,37 +26,37 @@ html, body {
 }
 
 .github-div {
-    background-image: url('../img/octocat-border.jpg');
+    background-image: url('/static/img/octocat-border.jpg');
     background-color: white;
 }
 
 .flickr-div {
-    background-image: url('../img/flickr.gif');
+    background-image: url('/static/img/flickr.gif');
     background-color: white;
 }
 
 .fsm-div {
-    background-image: url('../img/fsm.png');
+    background-image: url('/static/img/fsm.png');
     background-color: white;
 }
 
 .rob-aleta-div {
-    background-image: url('../img/aleta-n-rob.jpg');
+    background-image: url('/static/img/aleta-n-rob.jpg');
     background-color: white;
 }
 
 .musicbrainz-div {
-    background-image: url('../img/musicbrainz.png');
+    background-image: url('/static/img/musicbrainz.png');
     background-color: white;
 }
 
 .hair-div {
-    background-image: url('../img/flickr.gif');
+    background-image: url('/static/img/flickr.gif');
     background-color: white;
 }
 
 .twitter-div {
-    background-image: url('../img/twitter.png');
+    background-image: url('/static/img/twitter.png');
     background-color: white;
     color: #333;
 }

@@ -3,17 +3,17 @@
   <head>
     <title>Benvinguts a mayhem.cat!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="css/mayhem.cat.css">
+    <link rel="stylesheet" type="text/css" href="static/css/mayhem.cat.css">
   </head>
   <body>
      <div id="canvas-wrap">
          <canvas id="canvas" width="800" height="800">
            Yer browser sucks, buddy. @MayhemBCN
          </canvas>
-         <div id="overlay"></div>
+         <div id="overlay"><div class="welcome">benvinguts a mayhem.cat</div></div>
      </div>
-<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="js/rgbhsv.js"></script>
+<script type="text/javascript" src="static/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="static/js/rgbhsv.js"></script>
 <script type="text/javascript">
 var minsize = 0.001;
 var fractal_margin = 50;
@@ -186,7 +186,7 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
   var divs = new Array();
   for (i = 0; i < draw.length; i++)
   {
-      circle_size = draw[i].draw(ctx, size, offset_x, offset_y, colors[i % colors.length], i, i < content_divs.length + 2);
+      circle_size = draw[i].draw(ctx, size, offset_x, offset_y, colors[i % colors.length], i, i < content_divs.length + 1);
       if (circle_size > 0)
           divs.push({ "id" : i, "size" : circle_size });
   }
@@ -273,7 +273,7 @@ function hair()
 function twitter(circle_size)
 {
     font_size = Math.floor(circle_size / 7.5);
-    $(".twitter-div").html('<div id="tweet" style="font-size: ' + font_size + 'px"><div id="tweet-header">@MayhemBCN</div>Do you remember the BBC lanyard you gave me many moons ago, @njh? I am finally putting it to use. @mtg_upf</div>');
+    $(".twitter-div").html('<div id="tweet" style="font-size: ' + font_size + 'px"><div id="tweet-header">@MayhemBCN</div>{{ twat }}</div>');
 }
 </script>
 </body>

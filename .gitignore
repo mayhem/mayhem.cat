@@ -1,0 +1,5 @@
+*.pyc
+mayhem_cat/config.py
+mayhem_cat/cache
+.DS_Store
+*.swp
