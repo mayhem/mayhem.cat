@@ -18,6 +18,7 @@
 var minsize = 0.001;
 var fractal_margin = 50;
 
+// add party robotics, BCN, 
 var content_divs = ['flickr', 'hair', 'twitter', 'rob-aleta', 'musicbrainz', 'github', 'fsm'];
 var apikey = '8f77903e13559997f2609448bf039157';
 var userid = '81126501@N00';
