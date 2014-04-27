@@ -10,7 +10,7 @@
          <canvas id="canvas" width="800" height="800">
            Yer browser sucks, buddy. @MayhemBCN
          </canvas>
-         <div id="overlay"><div class="welcome">benvinguts a mayhem.cat</div></div>
+         <div id="overlay"></div>
      </div>
 <script type="text/javascript" src="static/js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="static/js/rgbhsv.js"></script>
@@ -28,13 +28,13 @@ var saturation = (Math.random() * .3) + .45;
 var value = .95;
 
 var colors = new Array();
-colors[colors.length] = hsv_to_color(hue, saturation, value);  
+colors[colors.length] = hsv_to_rgb(hue, saturation, value);  
 
 // Todo: range check these
-colors[colors.length] = hsv_to_color(hue + .1, saturation, value);  
-colors[colors.length] = hsv_to_color(hue - .1, saturation, value);  
+colors[colors.length] = hsv_to_rgb(hue + .1, saturation, value);  
+colors[colors.length] = hsv_to_rgb(hue - .1, saturation, value);  
 
-bg_color = hsv_to_color(hue, .5, .5);  
+bg_color = hsv_to_rgb(hue, .5, .5);  
 
 $(document).ready(function() 
 {
@@ -45,7 +45,7 @@ $( window ).resize(function() {
     init_fractal();
 });
 
-function hsv_to_color(h, s, v)
+function hsv_to_rgb(h, s, v)
 {
     rgb = hsvToRgb(h, s, v);
     return "rgb(" + Math.floor(rgb[0]) + "," + Math.floor(rgb[1]) + "," + Math.floor(rgb[2]) + ")";
@@ -59,19 +59,29 @@ function init_fractal()
     ctx.canvas.height = window.innerHeight;
 
     $("body").css('background-color', bg_color);
+
+    if (window.innerWidth < 600 || window.innerHeight < 600)
+        margin = 1;
+    else
+    if (window.innerWidth < 800 || window.innerHeight < 800)
+        margin = 10;
+    else
+        margin = fractal_margin;
+
     if (window.innerHeight > window.innerWidth)
     {
-        size = Math.floor((window.innerWidth / 2) - fractal_margin);
-        offset_x = fractal_margin;
+        size = Math.floor((window.innerWidth / 2) - margin);
+        offset_x = margin;
         offset_y = Math.floor((window.innerHeight / 2) - size);
     }
     else
     {
-        size = Math.floor((window.innerHeight / 2) - fractal_margin);
+        size = Math.floor((window.innerHeight / 2) - margin);
         offset_x = Math.floor((window.innerWidth / 2) - size);
-        offset_y = fractal_margin;
+        offset_y = margin;
     }
 
+    $("#overlay").empty();
     draw_fractal(ctx, size, offset_x, offset_y);
 }
 
@@ -194,8 +204,6 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
       return a.size < b.size;
   });
   twitter_size = 0;
-  console.log(divs.length);
-  console.log(content_divs.length);
   for(i = 0; i < divs.length; i++)
   {
       $("#c" + divs[i].id).addClass(content_divs[i] + "-div");
@@ -252,22 +260,12 @@ function Circle(x, y, r, colour) {
 
 function flickr()
 {
-    $.getJSON('http://api.flickr.com/services/rest/?&method=flickr.people.getPublicPhotos&api_key='+apikey+'&user_id='+userid+'&format=json&jsoncallback=?',
-    function(data){
-        item = data.photos.photo[0]; 
-        var purl = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_b_d.jpg';
-        $(".flickr-div").css('background-image', 'url(' + purl + ')');
-    });
+    $(".flickr-div").css('background-image', 'url({{ mayhem_url }})');
 }
 
 function hair()
 {
-    $.getJSON('http://api.flickr.com/services/rest/?&method=flickr.photosets.getPhotos&api_key='+apikey+'&photoset_id='+hair_set_id+'&format=json&jsoncallback=?',
-    function(data){
-        item = data.photoset.photo[0]; 
-        var purl = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_b_d.jpg';
-        $(".hair-div").css('background-image', 'url(' + purl + ')');
-    });
+    $(".hair-div").css('background-image', 'url({{ hair_url }})');
 }
 
 function twitter(circle_size)
