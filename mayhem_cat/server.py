@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import json
 from flask import Flask, render_template
 import config
 
@@ -38,7 +39,15 @@ def index():
     except IOError:
         pass
 
-    return render_template("index", twat = twat, images = images)
+    try:
+        with open(os.path.join(TEMPLATE_FOLDER, "content.json"), "r") as f:
+            d = f.read()
+            print d
+            content = json.loads(d)
+    except IOError:
+        content = {}
+    
+    return render_template("index", twat = twat, images = images, content = content)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=8080)
