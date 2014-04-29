@@ -13,6 +13,25 @@ html, body {
     position:absolute; 
 }
 
+/* The following section is taken from Ian Lunn's Hover CSS: https://github.com/IanLunn/Hover */
+/* Shrink */
+.shrink {
+  display: inline-block;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+.shrink:hover, .shrink:focus, .shrink:active {
+  -webkit-transform: scale(0.9);
+  transform: scale(0.9);
+  border: 4px solid #333;
+}
+/* End borrowing from hover.css */
+
 .circle-div {
     font-family: Helvetica, Arial, san-serif;
     color: white;
