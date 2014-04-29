@@ -43,7 +43,7 @@ html, body {
     border: 2px solid #333;
 }
 
-# For images -- if you have a portrait image, use this class.
+/* For images -- if you have a portrait image, use this class. */
 .landscape-div {
     background-size: auto 100%;
 }
