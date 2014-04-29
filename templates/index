@@ -260,12 +260,21 @@ function Circle(x, y, r, colour) {
 
 function flickr()
 {
-    $(".flickr-div").css('background-image', 'url({{ mayhem_url }})');
+    $(".flickr-div").css('background-image', 'url({{ images['mayhem']['url'] }})');
+    if ({{ images['mayhem']['landscape'] }})
+        $(".flickr-div").addClass('landscape-div')
+    else
+        $(".flickr-div").addClass('portrait-div')
+
 }
 
 function hair()
 {
-    $(".hair-div").css('background-image', 'url({{ hair_url }})');
+    $(".hair-div").css('background-image', 'url({{ images['hair']['url'] }})');
+    if ({{ images['hair']['landscape'] }})
+        $(".hair-div").addClass('landscape-div')
+    else
+        $(".hair-div").addClass('portrait-div')
 }
 
 function twitter(circle_size)

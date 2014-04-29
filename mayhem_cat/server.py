@@ -21,19 +21,24 @@ def index():
     except IOError:
         twat = "No tweets! What??"
 
+    images = {}
     try:
         with open(os.path.join(config.CACHE_DIR, "mayhem_url"), "r") as f:
-            mayhem_url = f.read().strip()
+            mayhem_url = f.readline().strip()
+            mayhem_l = int(f.readline().strip())
+        images['mayhem'] = { 'landscape' : mayhem_l, 'url' : mayhem_url }
     except IOError:
-        mayhem_url = ""
+        pass
 
     try:
         with open(os.path.join(config.CACHE_DIR, "hair_url"), "r") as f:
-            hair_url = f.read().strip()
+            hair_url = f.readline().strip()
+            hair_l = int(f.readline().strip())
+        images['hair'] = { 'landscape' : hair_l, 'url' : hair_url }
     except IOError:
-        hair_url = ""
+        pass
 
-    return render_template("index", twat = twat, hair_url = hair_url, mayhem_url = mayhem_url)
+    return render_template("index", twat = twat, images = images)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=8080)
