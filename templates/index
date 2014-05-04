@@ -4,6 +4,7 @@
     <title>Benvinguts a mayhem.cat!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="static/css/mayhem.cat.css">
+    <link rel="icon" type="image/png" href="/static/img/mayhem.cat.png" />
   </head>
   <body>
      <div id="canvas-wrap">
@@ -203,14 +204,15 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
       }
   }
   divs.sort(function(a, b) {
-      return a.size < b.size;
+      return a['size'] < b['size'];
   });
+  console.log(divs);
 
   {% for co in content %}
       {% if co.div == 'twitter' %}
           twitter_size = divs[{{ loop.index0 }}].size;
       {% endif %}
-      $("#overlay").append('<a href="{{co.url}}">' + divs[{{ loop.index0 }}].html + '</a>')
+      $("#overlay").append('<a href="{{co.url}}" target="_blank">' + divs[{{ loop.index0 }}].html + '</a>')
       $("#c" + divs[{{ loop.index0 }}].id).addClass('{{ co.div }}' + "-div");
   {% endfor %}
   flickr();
