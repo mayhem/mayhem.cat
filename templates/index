@@ -4,13 +4,14 @@
     <title>Benvinguts a mayhem.cat!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="static/css/mayhem.cat.css">
+    <link rel="icon" type="image/png" href="/static/img/mayhem.cat.png" />
   </head>
   <body>
      <div id="canvas-wrap">
          <canvas id="canvas" width="800" height="800">
            Yer browser sucks, buddy. @MayhemBCN
          </canvas>
-         <div id="overlay"><div class="welcome">benvinguts a mayhem.cat</div></div>
+         <div id="overlay"></div>
      </div>
 <script type="text/javascript" src="static/js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="static/js/rgbhsv.js"></script>
@@ -18,8 +19,6 @@
 var minsize = 0.001;
 var fractal_margin = 50;
 
-// add party robotics, BCN, 
-var content_divs = ['flickr', 'hair', 'twitter', 'rob-aleta', 'musicbrainz', 'github', 'fsm'];
 var apikey = '8f77903e13559997f2609448bf039157';
 var userid = '81126501@N00';
 var hair_set_id = '72157621208033122';
@@ -29,13 +28,13 @@ var saturation = (Math.random() * .3) + .45;
 var value = .95;
 
 var colors = new Array();
-colors[colors.length] = hsv_to_color(hue, saturation, value);  
+colors[colors.length] = hsv_to_rgb(hue, saturation, value);  
 
 // Todo: range check these
-colors[colors.length] = hsv_to_color(hue + .1, saturation, value);  
-colors[colors.length] = hsv_to_color(hue - .1, saturation, value);  
+colors[colors.length] = hsv_to_rgb(hue + .1, saturation, value);  
+colors[colors.length] = hsv_to_rgb(hue - .1, saturation, value);  
 
-bg_color = hsv_to_color(hue, .5, .5);  
+bg_color = hsv_to_rgb(hue, .5, .5);  
 
 $(document).ready(function() 
 {
@@ -46,7 +45,7 @@ $( window ).resize(function() {
     init_fractal();
 });
 
-function hsv_to_color(h, s, v)
+function hsv_to_rgb(h, s, v)
 {
     rgb = hsvToRgb(h, s, v);
     return "rgb(" + Math.floor(rgb[0]) + "," + Math.floor(rgb[1]) + "," + Math.floor(rgb[2]) + ")";
@@ -60,19 +59,29 @@ function init_fractal()
     ctx.canvas.height = window.innerHeight;
 
     $("body").css('background-color', bg_color);
+
+    if (window.innerWidth < 600 || window.innerHeight < 600)
+        margin = 1;
+    else
+    if (window.innerWidth < 800 || window.innerHeight < 800)
+        margin = 10;
+    else
+        margin = fractal_margin;
+
     if (window.innerHeight > window.innerWidth)
     {
-        size = Math.floor((window.innerWidth / 2) - fractal_margin);
-        offset_x = fractal_margin;
+        size = Math.floor((window.innerWidth / 2) - margin);
+        offset_x = margin;
         offset_y = Math.floor((window.innerHeight / 2) - size);
     }
     else
     {
-        size = Math.floor((window.innerHeight / 2) - fractal_margin);
+        size = Math.floor((window.innerHeight / 2) - margin);
         offset_x = Math.floor((window.innerWidth / 2) - size);
-        offset_y = fractal_margin;
+        offset_y = margin;
     }
 
+    $("#overlay").empty();
     draw_fractal(ctx, size, offset_x, offset_y);
 }
 
@@ -187,35 +196,38 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
   var divs = new Array();
   for (i = 0; i < draw.length; i++)
   {
-      circle_size = draw[i].draw(ctx, size, offset_x, offset_y, colors[i % colors.length], i, i < content_divs.length + 1);
-      if (circle_size > 0)
-          divs.push({ "id" : i, "size" : circle_size });
+      d = draw[i].draw(ctx, size, offset_x, offset_y, colors[i % colors.length], i);
+      if (d)
+      {
+          divs.push(d);
+          console.log(d);
+      }
   }
   divs.sort(function(a, b) {
-      return a.size < b.size;
+      return a['size'] < b['size'];
   });
-  twitter_size = 0;
-  console.log(divs.length);
-  console.log(content_divs.length);
-  for(i = 0; i < divs.length; i++)
-  {
-      $("#c" + divs[i].id).addClass(content_divs[i] + "-div");
-      if (content_divs[i] == 'twitter')
-          twitter_size = divs[i].size;
-  }
+  console.log(divs);
+
+  {% for co in content %}
+      {% if co.div == 'twitter' %}
+          twitter_size = divs[{{ loop.index0 }}].size;
+      {% endif %}
+      $("#overlay").append('<a href="{{co.url}}" target="_blank">' + divs[{{ loop.index0 }}].html + '</a>')
+      $("#c" + divs[{{ loop.index0 }}].id).addClass('{{ co.div }}' + "-div");
+  {% endfor %}
   flickr();
   hair();
   twitter(twitter_size);
 } 
  
 // circle class
-function Circle(x, y, r, colour) {
+function Circle(x, y, r, colour, url) {
   // properties of a circle
   this.x = x;
   this.y = y;
   this.r = r;
   this.colour = colour;
-  this.draw = function(ctx, size, offset_x, offset_y, color, index, make_div) {
+  this.draw = function(ctx, size, offset_x, offset_y, color, index) {
       x = Math.floor(((this.x + 1.0) * size) + offset_x);
       y = Math.floor(((this.y + 1.0) * size) + offset_y);
       r = Math.abs(Math.floor(size * this.r))
@@ -231,9 +243,9 @@ function Circle(x, y, r, colour) {
       ctx.strokeStyle = 'white';
       ctx.stroke();
 
-      if (r > 25 && index && make_div)
+      if (r > 25 && index > 0)
       { 
-          $("#overlay").append('<div id="c' + index + '" class="circle-div" style="top: ' 
+          html = '<div id="c' + index + '" class="circle-div shrink border-fade" style="top: ' 
                          + (y - r)
                          + 'px; left: ' 
                          + (x - r)
@@ -243,32 +255,31 @@ function Circle(x, y, r, colour) {
                          + ((r * 2) - 4)
                          + 'px; height: ' 
                          + ((r * 2) - 4)
-                         + 'px"></div>')
-          return r;
+                         + 'px"></div>';
+          return { "id" : index, "size" : r, "html" : html }; 
       }
       else
-          return 0;
+          return false;
   };
 } 
 
 function flickr()
 {
-    $.getJSON('http://api.flickr.com/services/rest/?&method=flickr.people.getPublicPhotos&api_key='+apikey+'&user_id='+userid+'&format=json&jsoncallback=?',
-    function(data){
-        item = data.photos.photo[0]; 
-        var purl = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_b_d.jpg';
-        $(".flickr-div").css('background-image', 'url(' + purl + ')');
-    });
+    $(".flickr-div").css('background-image', 'url({{ images['mayhem']['url'] }})');
+    if ({{ images['mayhem']['landscape'] }})
+        $(".flickr-div").addClass('landscape-div')
+    else
+        $(".flickr-div").addClass('portrait-div')
+
 }
 
 function hair()
 {
-    $.getJSON('http://api.flickr.com/services/rest/?&method=flickr.photosets.getPhotos&api_key='+apikey+'&photoset_id='+hair_set_id+'&format=json&jsoncallback=?',
-    function(data){
-        item = data.photoset.photo[0]; 
-        var purl = 'http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_b_d.jpg';
-        $(".hair-div").css('background-image', 'url(' + purl + ')');
-    });
+    $(".hair-div").css('background-image', 'url({{ images['hair']['url'] }})');
+    if ({{ images['hair']['landscape'] }})
+        $(".hair-div").addClass('landscape-div')
+    else
+        $(".hair-div").addClass('portrait-div')
 }
 
 function twitter(circle_size)
