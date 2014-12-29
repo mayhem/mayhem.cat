@@ -28,13 +28,13 @@ var saturation = (Math.random() * .3) + .45;
 var value = .95;
 
 var colors = new Array();
-colors[colors.length] = hsv_to_rgb(hue, saturation, value);  
+colors[colors.length] = hsvToRgb(hue, saturation, value);  
 
 // Todo: range check these
-colors[colors.length] = hsv_to_rgb(hue + .1, saturation, value);  
-colors[colors.length] = hsv_to_rgb(hue - .1, saturation, value);  
+colors[colors.length] = hsvToRgb(hue + .1, saturation, value);  
+colors[colors.length] = hsvToRgb(hue - .1, saturation, value);  
 
-bg_color = hsv_to_rgb(hue, .5, .5);  
+bg_color = hsvToRgb(hue, .5, .5);  
 
 $(document).ready(function() 
 {

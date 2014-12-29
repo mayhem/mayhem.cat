@@ -49,5 +49,9 @@ def index():
     
     return render_template("index", twat = twat, images = images, content = content)
 
+@app.route('/alt')
+def alt():
+    return render_template("alt")
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=8080)

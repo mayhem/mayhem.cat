@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="static/js/rgbhsv.js"></script>
+<script>
+
+var num_circles = 100;
+var min_circle_size = 50;
+var avg_circle_size = 120;
+
+var width, height, nodes, force, svg; 
+
+function hsv_to_rgb(h, s, v)
+{
+    rgb = hsvToRgb(h, s, v);
+    return d3.rgb(Math.floor(rgb[0]), Math.floor(rgb[1]), Math.floor(rgb[2]));
+}
+
+function color_init()
+{
+    var hue = Math.random();
+    var saturation = (Math.random() * .3) + .45;
+    var value = .95;
+
+    var colors = new Array();
+    colors[colors.length] = hsv_to_rgb(hue, saturation, value);  
+
+    hue_1 = hue + .1;
+    if (hue_1 > 1.0)
+        hue_1 -= 1.0;
+
+    hue_2 = hue + .2;
+    if (hue_2 > 1.0)
+        hue_2 -= 1.0;
+
+    colors[colors.length] = hsv_to_rgb(hue_1, saturation, value);  
+    colors[colors.length] = hsv_to_rgb(hue_2, saturation, value);  
+
+    bg_color = hsv_to_rgb(hue, .5, .5);
+    console.log(bg_color);
+    $("body").css('background-color', bg_color);
+
+    return colors;
+}
+
+function init()
+{
+    width = $( document ).width(),
+    height = $( document ).height();
+
+    nodes = d3.range(num_circles).map(
+        function() 
+        { 
+            return {radius: Math.random() * avg_circle_size + min_circle_size}; 
+        }
+    );
+    root = nodes[0];
+    color = color_init();
+    console.log(color);
+
+    root.radius = 0;
+    root.fixed = true;
+
+    force = d3.layout.force()
+        .gravity(0.05)
+        .charge(function(d, i) { return i ? 0 : -2000; })
+        .nodes(nodes)
+        .size([width, height]);
+
+    force.start();
+
+    svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    svg.selectAll("circle")
+        .data(nodes.slice(1))
+        .enter().append("circle")
+        .attr("r", function(d) { return d.radius; })
+        .style("fill", function(d, i) { return color[i % 3]; });
+
+    force.on("tick", function(e) {
+      var q = d3.geom.quadtree(nodes),
+          i = 0,
+          n = nodes.length;
+
+      while (++i < n) q.visit(collide(nodes[i]));
+
+      svg.selectAll("circle")
+          .attr("cx", function(d) { return d.x; })
+          .attr("cy", function(d) { return d.y; });
+    });
+} 
+
+function collide(node) {
+  var r = node.radius + 16,
+      nx1 = node.x - r,
+      nx2 = node.x + r,
+      ny1 = node.y - r,
+      ny2 = node.y + r;
+  return function(quad, x1, y1, x2, y2) {
+    if (quad.point && (quad.point !== node)) {
+      var x = node.x - quad.point.x,
+          y = node.y - quad.point.y,
+          l = Math.sqrt(x * x + y * y),
+          r = node.radius + quad.point.radius;
+      if (l < r) {
+        l = (l - r) / l * .5;
+        node.x -= x *= l;
+        node.y -= y *= l;
+        quad.point.x += x;
+        quad.point.y += y;
+      }
+    }
+    return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+  };
+}
+
+$(document).ready(function() 
+{
+    init();
+});
+
+$(window).resize(function() 
+{
+    force.stop();
+    force = null;
+    d3.select("svg").remove();
+    init();
+});
+
+</script>
