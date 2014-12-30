@@ -38,10 +38,10 @@ function color_init()
     colors[colors.length] = hsv_to_rgb(hue_1, saturation, value);  
     colors[colors.length] = hsv_to_rgb(hue_2, saturation, value);  
 
-    bg_color = hsv_to_rgb(hue, .5, .5);
-    console.log(bg_color);
-    $("body").css('background-color', bg_color);
-
+    bg_color = hsvToRgb(hue, .5, .5);
+    $("body").css('background-color', "rgb(" + Math.floor(bg_color[0]) + "," 
+                                             + Math.floor(bg_color[1]) + "," 
+                                             + Math.floor(bg_color[2]) + ")");
     return colors;
 }
 
