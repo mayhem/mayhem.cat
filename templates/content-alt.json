@@ -1,7 +1,7 @@
 [ 
     { 
         "div" : "flickr",        
-        "img" : "flick.png",
+        "img" : "flickr.png",
         "url" : "http://flickr.com/photos/mayhem" 
     }, 
     { 
@@ -45,7 +45,12 @@
         "url" : "http://www.facebook.com/mayhemchaos" 
     },
     { 
-        "div" : "thingiverse",        
+        "div" : "medium",
+        "img" : "medium.png",
+        "url" : "https://medium.com/@mayhembcn" 
+    },
+    { 
+        "div" : "thingiverse",
         "img" : "thingiverse.jpg",
         "url" : "https://www.thingiverse.com/mayhem/about" 
     },

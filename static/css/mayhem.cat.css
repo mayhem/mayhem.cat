@@ -39,9 +39,11 @@ html, body {
     text-align: center;
     vertical-align: center;
     overflow: hidden;
-    background-repeat: no-repeat;
     border: 2px solid #333;
     display: none;
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size: 100%;
 }
 
 /* For images -- if you have a portrait image, use this class. */
@@ -51,82 +53,4 @@ html, body {
 
 .portrait-div {
     background-size: 100% auto;
-}
-
-.github-div {
-    background-image: url('/static/img/octocat-border.jpg');
-    background-color: white;
-    background-size: 100%;
-}
-
-.fsm-div {
-    background-image: url('/static/img/fsm.png');
-    background-color: white;
-    background-size: 100%;
-}
-
-.rob-aleta-div {
-    background-image: url('/static/img/aleta-n-rob.jpg');
-    background-color: white;
-    background-size: 100%;
-}
-
-.musicbrainz-div {
-    background-image: url('/static/img/musicbrainz.svg');
-    background-color: white;
-    background-size: 100%;
-}
-
-.metabrainz-div {
-    background-image: url('/static/img/metabrainz.svg');
-    background-color: white;
-    background-size: 100%;
-}
-
-.hair-div {
-    background-image: url('/static/img/hair.jpg');
-    background-color: white;
-    background-size: 100%;
-}
-
-.linkedin-div {
-    background-image: url('/static/img/linkedin.png');
-    background-color: white;
-    background-size: 100%;
-}
-
-.facebook-div {
-    background-image: url('/static/img/facebook.png');
-    background-color: white;
-    background-size: 100%;
-}
-
-.flickr-div {
-    background-image: url('/static/img/flickr.gif');
-    background-color: white;
-    background-size: 100%;
-}
-`
-.thingiverse-div {
-    background-image: url('/static/img/thingiverse.jpg');
-    background-color: white;
-    background-size: 100%;
-}
-
-.twitter-div {
-    background-image: url('/static/img/twitter.png');
-    background-color: white;
-    background-size: 100%;
-    color: #333;
-}
-
-#tweet {
-    padding: 3em;
-    text-align: left;
-}
-
-#tweet-header {
-    margin-bottom: 10px;
-    font-weight: bold;
-    text-align: center;
 }

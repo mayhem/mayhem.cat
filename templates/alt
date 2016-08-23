@@ -147,7 +147,7 @@ function init()
                             divs[{{ loop.index0 }}].x,
                             divs[{{ loop.index0 }}].y);
             $("#overlay").append(html);
-            $("#c{{ loop.index0 }}").addClass('{{ co.div }}' + "-div");
+            $("#c{{ loop.index0 }}").css('background-image', 'url(/static/img/{{ co.img }})');
         {% endfor %}
         {% for co in content %}
             $("#c{{ loop.index0 }}").show('fast');
@@ -165,9 +165,9 @@ function make_div(index, url, r, x, y)
                    + 'px; border-radius: ' 
                    + (r-2)
                    + 'px; width: ' 
-                   + ((r * 2) - 3)
+                   + ((r * 2) - 2)
                    + 'px; height: ' 
-                   + ((r * 2) - 3)
+                   + ((r * 2) - 2)
                    + 'px"></div>';
     html += '</a>';
 
