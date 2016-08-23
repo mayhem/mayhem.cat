@@ -41,6 +41,7 @@ html, body {
     overflow: hidden;
     background-repeat: no-repeat;
     border: 2px solid #333;
+    display: none;
 }
 
 /* For images -- if you have a portrait image, use this class. */

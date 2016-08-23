@@ -15,7 +15,7 @@
 
 var num_circles = 50;
 var min_circle_size = 50;
-var avg_circle_size = 120;
+var avg_circle_size = 100;
 
 var width, height, nodes, force, svg; 
 
@@ -121,11 +121,18 @@ function init()
         $("svg circle").each(function (e) 
         { 
             var i = $(this); 
-            divs[divs.length] = { 
-               'x' : i.attr("cx"), 
-               'y' : i.attr("cy"), 
-               'r' : i.attr("r") 
-            };
+            cx = Math.trunc(i.attr("cx"));
+            cy = Math.trunc(i.attr("cy"));
+            r = Math.trunc(i.attr("r"));
+
+            if (cx >= r && cy >= r && cx < (width-r) && cy < (height-r))
+            {
+                divs[divs.length] = { 
+                   'x' : cx, 
+                   'y' : cy, 
+                   'r' : r 
+                };
+            }
         });
 
         divs.sort(function(a, b) 
@@ -139,9 +146,11 @@ function init()
                             divs[{{ loop.index0 }}].r,
                             divs[{{ loop.index0 }}].x,
                             divs[{{ loop.index0 }}].y);
-            console.log(html);
             $("#overlay").append(html);
             $("#c{{ loop.index0 }}").addClass('{{ co.div }}' + "-div");
+        {% endfor %}
+        {% for co in content %}
+            $("#c{{ loop.index0 }}").show('fast');
         {% endfor %}
     });
 } 
