@@ -2,71 +2,85 @@
     { 
         "div" : "flickr",        
         "img" : "flickr.gif",
-        "url" : "http://flickr.com/photos/mayhem" 
+        "url" : "http://flickr.com/photos/mayhem",
+        "alt" : "Flickr photos"
     }, 
     { 
         "div" : "hair",          
         "img" : "hair.jpg",
-        "url" : "https://www.flickr.com/photos/mayhem/sets/72157621208033122/" 
+        "url" : "https://www.flickr.com/photos/mayhem/sets/72157621208033122/", 
+        "alt" : "My funky haircuts"
     },
     { 
         "div" : "twitter",       
         "img" : "twitter.png",
-        "url" : "http://twitter.com/MayhemBCN" 
+        "url" : "http://twitter.com/MayhemBCN", 
+        "alt" : "Twitter profile"
     },
     { 
         "div" : "musicbrainz",   
         "img" : "musicbrainz.svg",
-        "url" : "http://musicbrainz.org" 
+        "url" : "http://musicbrainz.org", 
+        "alt" : "MusicBrainz -- Open music encyclopedia"
     },
     { 
         "div" : "metabrainz",    
         "img" : "metabrainz.svg",
-        "url" : "http://metabrainz.org" 
+        "url" : "http://metabrainz.org", 
+        "alt" : "MetaBrainz --- MetaBrainz Foundation"
     },
     { 
         "div" : "github",        
         "img" : "octocat.jpg",
-        "url" : "http://github.com/mayhem" 
+        "url" : "http://github.com/mayhem", 
+        "alt" : "My software on Github"
     },
     { 
         "div" : "thingiverse",
         "img" : "thingiverse.jpg",
-        "url" : "https://www.thingiverse.com/mayhem/about" 
+        "url" : "https://www.thingiverse.com/mayhem/about",
+        "alt" : "Things I'vew designed on Thingiverse"
     },
     { 
         "div" : "medium",
         "img" : "medium.png",
-        "url" : "https://medium.com/@mayhembcn" 
+        "url" : "https://medium.com/@mayhembcn", 
+        "alt" : "My ramblings on Medium"
     },
     { 
         "div" : "facebook",        
         "img" : "facebook.png",
-        "url" : "http://www.facebook.com/mayhemchaos" 
+        "url" : "http://www.facebook.com/mayhemchaos", 
+        "alt" : "My Facebook page"
     },
     { 
         "div" : "rob-aleta",     
         "img" : "aleta-n-rob.jpg",
-        "url" : "http://bcnftw.es" 
+        "url" : "http://bcnftw.es", 
+        "alt" : "Rob and Aleta's Blog"
     },
     { 
         "div" : "cocktailbird",
         "img" : "cocktailbird.png",
-        "url" : "http://cocktailbird.de" 
+        "url" : "http://cocktailbird.de", 
+        "alt" : "Cocktailbird -- Cocktail Robots"
     },
     { 
         "div" : "strava",
         "img" : "strava.jpg",
-        "url" : "https://www.strava.com/athletes/5404" 
+        "url" : "https://www.strava.com/athletes/5404", 
+        "alt" : "My Strava feed"
     },
     { 
         "div" : "fsm",           
         "img" : "fsm.png",
-        "url" : "http://www.venganza.org" 
+        "url" : "http://www.venganza.org", 
+        "alt" : "Flying Spaghetti Monster!"
     },
     { 
         "div" : "linkedin",        
         "img" : "linkedin.png",
-        "url" : "https://linkedin.com/in/kayerobert" 
+        "url" : "https://linkedin.com/in/kayerobert",
+        "alt" : "My LinkedIn profile"
     }
 ]

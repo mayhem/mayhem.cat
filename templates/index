@@ -133,7 +133,7 @@ function init()
                 divs[divs.length] = { 
                    'x' : cx, 
                    'y' : cy, 
-                   'r' : r 
+                   'r' : r
                 };
             }
         });
@@ -150,7 +150,8 @@ function init()
                                 '{{ co.url }}',
                                 divs[{{ loop.index0 }}].r,
                                 divs[{{ loop.index0 }}].x,
-                                divs[{{ loop.index0 }}].y);
+                                divs[{{ loop.index0 }}].y,
+                                "{{ co.alt }}");
                 $("#overlay").append(html);
                 $("#c{{ loop.index0 }}").css('background-image', 'url(/static/img/{{ co.img }})');
             }
@@ -161,7 +162,7 @@ function init()
     });
 } 
 
-function make_div(index, url, r, x, y)
+function make_div(index, url, r, x, y, alt)
 {
     html = '<a href="' + url + '" target="_blank">';
     html += '<div id="c' + index + '" class="circle-div shrink border-fade" style="top: ' 
@@ -174,7 +175,9 @@ function make_div(index, url, r, x, y)
                    + ((r * 2) - 2)
                    + 'px; height: ' 
                    + ((r * 2) - 2)
-                   + 'px"></div>';
+                   + 'px" alt="'
+                   + alt + '" title="'
+                   + alt + '"></div>';
     html += '</a>';
 
     return html;
