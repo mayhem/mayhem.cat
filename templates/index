@@ -7,287 +7,214 @@
     <link rel="icon" type="image/png" href="/static/img/mayhem.cat.png" />
   </head>
   <body>
-     <div id="canvas-wrap">
-         <canvas id="canvas" width="800" height="800">
-           Yer browser sucks, buddy. @MayhemBCN
-         </canvas>
-         <div id="overlay"></div>
-     </div>
-<script type="text/javascript" src="static/js/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="static/js/rgbhsv.js"></script>
-<script type="text/javascript">
-var minsize = 0.001;
-var fractal_margin = 50;
+     <div id="overlay"></div>
+<script src="/static/js/d3.v3.min.js"></script>
+<script src="/static/js/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="/static/js/rgbhsv.js"></script>
+<script>
 
-var apikey = '8f77903e13559997f2609448bf039157';
-var userid = '81126501@N00';
-var hair_set_id = '72157621208033122';
+var num_circles = 50;
+var min_circle_size = 50;
+var avg_circle_size = 100;
 
-var hue = Math.random();
-var saturation = (Math.random() * .3) + .45;
-var value = .95;
-
-var colors = new Array();
-colors[colors.length] = hsvToRgb(hue, saturation, value);  
-
-// Todo: range check these
-colors[colors.length] = hsvToRgb(hue + .1, saturation, value);  
-colors[colors.length] = hsvToRgb(hue - .1, saturation, value);  
-
-bg_color = hsvToRgb(hue, .5, .5);  
-
-$(document).ready(function() 
-{
-    init_fractal();
-});
-
-$( window ).resize(function() {
-    init_fractal();
-});
+var width, height, nodes, force, svg; 
 
 function hsv_to_rgb(h, s, v)
 {
     rgb = hsvToRgb(h, s, v);
-    return "rgb(" + Math.floor(rgb[0]) + "," + Math.floor(rgb[1]) + "," + Math.floor(rgb[2]) + ")";
+    return d3.rgb(Math.floor(rgb[0]), Math.floor(rgb[1]), Math.floor(rgb[2]));
 }
 
-function init_fractal()
+function color_init()
 {
-    var example = document.getElementById('canvas');
-    var ctx = example.getContext('2d');
-    ctx.canvas.width  = window.innerWidth;
-    ctx.canvas.height = window.innerHeight;
+    var hue = Math.random();
+    var saturation = (Math.random() * .3) + .45;
+    var value = .95;
 
-    $("body").css('background-color', bg_color);
+    var colors = new Array();
+    colors[colors.length] = hsv_to_rgb(hue, saturation, value);  
 
-    if (window.innerWidth < 600 || window.innerHeight < 600)
-        margin = 1;
-    else
-    if (window.innerWidth < 800 || window.innerHeight < 800)
-        margin = 10;
-    else
-        margin = fractal_margin;
+    hue_1 = hue + (Math.random() * .3);
+    if (hue_1 > 1.0)
+        hue_1 -= 1.0;
 
-    if (window.innerHeight > window.innerWidth)
-    {
-        size = Math.floor((window.innerWidth / 2) - margin);
-        offset_x = margin;
-        offset_y = Math.floor((window.innerHeight / 2) - size);
-    }
-    else
-    {
-        size = Math.floor((window.innerHeight / 2) - margin);
-        offset_x = Math.floor((window.innerWidth / 2) - size);
-        offset_y = margin;
-    }
+    hue_2 = hue + (Math.random() * .5);
+    if (hue_2 > 1.0)
+        hue_2 -= 1.0;
 
+    colors[colors.length] = hsv_to_rgb(hue_1, saturation, value);  
+    colors[colors.length] = hsv_to_rgb(hue_2, saturation, value);  
+
+    bg_color = hsvToRgb(hue, .5, .5);
+    $("body").css('background-color', "rgb(" + Math.floor(bg_color[0]) + "," 
+                                             + Math.floor(bg_color[1]) + "," 
+                                             + Math.floor(bg_color[2]) + ")");
+    return colors;
+}
+
+var tick_count = 0;
+var start_alpha = .1;
+var end_alpha = -.001;
+var target_tick = 100;
+
+function init()
+{
     $("#overlay").empty();
-    draw_fractal(ctx, size, offset_x, offset_y);
+
+    width = $( document ).width(),
+    height = $( document ).height();
+
+    min_circle_size = width / 15;
+    avg_circle_size = width / 20;
+
+    nodes = d3.range(num_circles).map(
+        function() 
+        { 
+            return {radius: Math.random() * avg_circle_size + min_circle_size}; 
+        }
+    );
+    root = nodes[0];
+    color = color_init();
+
+    root.radius = 0;
+    root.fixed = true;
+    tick_count = 0;
+
+    force = d3.layout.force()
+        .gravity(0.05)
+        .charge(function(d, i) { return i ? 0 : -2000; })
+        .nodes(nodes)
+        .alpha(.9)
+        .size([width, height]);
+
+    force.start();
+
+    svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    svg.selectAll("circle")
+        .data(nodes.slice(1))
+        .enter().append("circle")
+        .attr("r", function(d) { return d.radius; })
+        .style("fill", function(d, i) { return color[i % 3]; });
+
+
+    force.on("tick", function(e) 
+    {
+      var q = d3.geom.quadtree(nodes),
+          i = 0,
+          n = nodes.length;
+
+      while (++i < n) q.visit(collide(nodes[i]));
+
+      svg.selectAll("circle")
+          .attr("cx", function(d) { return d.x; })
+          .attr("cy", function(d) { return d.y; });
+
+      tick_count++;
+      alpha = (1.0 - (tick_count / target_tick)) * (start_alpha - end_alpha);
+      force.alpha(alpha);
+    });
+
+    force.on("end", function(e)
+    {
+        var divs = [];
+
+        $("svg circle").each(function (e) 
+        { 
+            var i = $(this); 
+            cx = Math.trunc(i.attr("cx"));
+            cy = Math.trunc(i.attr("cy"));
+            r = Math.trunc(i.attr("r"));
+
+            if (cx >= r && cy >= r && cx < (width-r) && cy < (height-r))
+            {
+                divs[divs.length] = { 
+                   'x' : cx, 
+                   'y' : cy, 
+                   'r' : r 
+                };
+            }
+        });
+
+        divs.sort(function(a, b) 
+        {
+            return b.r - a.r;
+        });
+
+        {% for co in content %}
+            if ({{ loop.index0 }} < divs.length)
+            {
+                html = make_div({{ loop.index0 }}, 
+                                '{{ co.url }}',
+                                divs[{{ loop.index0 }}].r,
+                                divs[{{ loop.index0 }}].x,
+                                divs[{{ loop.index0 }}].y);
+                $("#overlay").append(html);
+                $("#c{{ loop.index0 }}").css('background-image', 'url(/static/img/{{ co.img }})');
+            }
+        {% endfor %}
+        {% for co in content %}
+            $("#c{{ loop.index0 }}").show('fast');
+        {% endfor %}
+    });
+} 
+
+function make_div(index, url, r, x, y)
+{
+    html = '<a href="' + url + '" target="_blank">';
+    html += '<div id="c' + index + '" class="circle-div shrink border-fade" style="top: ' 
+                   + (y - r)
+                   + 'px; left: ' 
+                   + (x - r)
+                   + 'px; border-radius: ' 
+                   + (r-2)
+                   + 'px; width: ' 
+                   + ((r * 2) - 2)
+                   + 'px; height: ' 
+                   + ((r * 2) - 2)
+                   + 'px"></div>';
+    html += '</a>';
+
+    return html;
 }
 
-// complex numbers
-function C(r,i)    { this.r = r; this.i = i; }
-function Cconj(c)  { return new C(c.r, -c.i); }
-function Cadd(c,d) { return new C(c.r+d.r,c.i+d.i); }
-function Csub(c,d) { return new C(c.r-d.r,c.i-d.i); }
-function Cmul(c,d) { return new C(c.r*d.r-c.i*d.i,c.r*d.i+c.i*d.r); }
-function Csqrt(c)  { return new C(Math.sqrt(Math.sqrt(c.r*c.r+c.i*c.i)) * Math.cos(Math.atan2(c.i,c.r)/2),
-                                  Math.sqrt(Math.sqrt(c.r*c.r+c.i*c.i)) * Math.sin(Math.atan2(c.i,c.r)/2)); }
- 
-// sort points into order
-function clockwise(a, b, c) {
-  var x1 = a.x-b.x; var y1 = a.y-b.y;
-  var x2 = c.x-b.x; var y2 = c.y-b.y;
-  if ((x1*y2-y1*x2) >= 0) return [a,b,c]; else return [a,c,b];
-}
- 
-// compute the 4th circle touching 3 circles, each of which touch the other two
-function Kiss(a, b, c, initial) {
-  var k1 = 1 / a.r; var z1 = new C(a.x, a.y); var kz1 = Cmul(new C(k1,0),z1);
-  var k2 = 1 / b.r; var z2 = new C(b.x, b.y); var kz2 = Cmul(new C(k2,0),z2);
-  var k3 = 1 / c.r; var z3 = new C(c.x, c.y); var kz3 = Cmul(new C(k3,0),z3);
-  var k4p = k1 + k2 + k3 + 2*Math.sqrt(k1*k2 + k2*k3 + k3*k1);
-  var k4m = k1 + k2 + k3 - 2*Math.sqrt(k1*k2 + k2*k3 + k3*k1);
-  var kz4p = Cadd(Cadd(Cadd(kz1,kz2),kz3),Cmul(new C(2,0),
-    Csqrt(Cadd(Cadd(Cmul(kz1,kz2),Cmul(kz2,kz3)),Cmul(kz3,kz1)))));
-  var kz4m = Csub(Cadd(Cadd(kz1,kz2),kz3),Cmul(new C(2,0),
-    Csqrt(Cadd(Cadd(Cmul(kz1,kz2),Cmul(kz2,kz3)),Cmul(kz3,kz1)))));
-  var k4;
-  var kz4;
-  var k4b;
-  var kz4b;
-  var cs = new Array();
-  if (k4p > k4m) { k4 = k4p; kz4 = kz4p; k4b = k4m; kz4b = kz4m; }
-  else           { k4 = k4m; kz4 = kz4m; k4b = k4p; kz4b = kz4p; }
-  var cc = new Circle(kz4.r/k4,kz4.i/k4,Math.abs(1/k4), 6 - a.colour - b.colour - c.colour);
-  var dx = a.x - cc.x
-  var dy = a.y - cc.y
-  var dr = a.r + cc.r
-  if (Math.abs(dx * dx + dy *dy - dr * dr) > 0.0001) {
-    cc = new Circle(kz4b.r/k4,kz4b.i/k4,Math.abs(1/k4), 6 - a.colour - b.colour - c.colour);
-  }
-  cs[cs.length] = cc;
-  if (initial) {
-    cc = new Circle(kz4b.r/k4b,kz4b.i/k4b,Math.abs(1/k4b), 6 - a.colour - b.colour - c.colour);
-    cs[cs.length] = cc;
-  }
-  return cs;
-}
- 
-// called once on load
-function draw_fractal(ctx, size, offset_x, offset_y) {
- 
-  // initial bounding circle
-  var b = new Circle(0, 0, -1, 0);
-
-  r1 = Math.random() * .2 + .45;
-  r2 = Math.random() * .2 + .45;
-  // insert two randomly positioned touching circles
-  var tr = r1;
-  var pa = Math.PI/2 - Math.asin(r2*(1-tr)/tr);
-  var px = tr * Math.cos(pa);
-  var py = tr * Math.sin(pa);
-  var pr = 1 - tr;
-  var qr = (1 - pr) * (1 - Math.cos(pa + Math.PI/2))
-         / (1 + pr - (1 - pr) * Math.cos(pa + Math.PI/2));
-  var qx = 0;
-  var qy = qr - 1;
-  var p = new Circle(px, py, pr, 1);
-  var q = new Circle(qx, qy, qr, 2);
- 
-  // a queue to contain triples of touching circles
-  var queue = new Array();
-  var cs = Kiss(b,p,q, true);
-  queue[queue.length] = [b,p,cs[0]];
-  queue[queue.length] = [b,cs[0],q];
-  queue[queue.length] = [cs[0],p,q];
-  queue[queue.length] = [b,p,cs[1]];
-  queue[queue.length] = [b,cs[1],q];
-  queue[queue.length] = [cs[1],p,q];
- 
-  // a queue to contain circles to draw
-  var draw = new Array();
-  draw[draw.length] = b;
-  draw[draw.length] = p;
-  draw[draw.length] = q;
-  draw[draw.length] = cs[0];
-  draw[draw.length] = cs[1];
-
-  if (1) {
-  // add more circles to the draw queue
-  // adding new triples to the compute queue
-  var c;
-  for (c = 0; c < Math.min(queue.length, 500); c = c + 1) {
-    var c0 = queue[c][0];
-    var c1 = queue[c][1];
-    var c2 = queue[c][2];
-    var ncs = Kiss(c0,c1,c2);
-    var nc = ncs[0];
-    if (nc.r > minsize) {
-      queue[queue.length] = [nc,c1,c2];
-      queue[queue.length] = [c0,nc,c2];
-      queue[queue.length] = [c0,c1,nc];
-      draw[draw.length] = nc;
+function collide(node) {
+  var r = node.radius + 16,
+      nx1 = node.x - r,
+      nx2 = node.x + r,
+      ny1 = node.y - r,
+      ny2 = node.y + r;
+  return function(quad, x1, y1, x2, y2) {
+    if (quad.point && (quad.point !== node)) {
+      var x = node.x - quad.point.x,
+          y = node.y - quad.point.y,
+          l = Math.sqrt(x * x + y * y),
+          r = node.radius + quad.point.radius;
+      if (l < r) {
+        l = (l - r) / l * .5;
+        node.x -= x *= l;
+        node.y -= y *= l;
+        quad.point.x += x;
+        quad.point.y += y;
+      }
     }
-  }
-  }
- 
-  var i;
-  var divs = new Array();
-  for (i = 0; i < draw.length; i++)
-  {
-      d = draw[i].draw(ctx, size, offset_x, offset_y, colors[i % colors.length], i);
-      if (d)
-      {
-          divs.push(d);
-          console.log(d);
-      }
-  }
-  divs.sort(function(a, b) {
-      return a['size'] < b['size'];
-  });
-  console.log(divs);
-
-  {% for co in content %}
-      {% if co.div == 'twitter' %}
-          twitter_size = divs[{{ loop.index0 }}].size;
-      {% endif %}
-      $("#overlay").append('<a href="{{co.url}}" target="_blank">' + divs[{{ loop.index0 }}].html + 
-                           '</a>')
-      $("#c" + divs[{{ loop.index0 }}].id).addClass('{{ co.div }}' + "-div");
-  {% endfor %}
-  flickr();
-  hair();
-  twitter(twitter_size);
-} 
- 
-// circle class
-function Circle(x, y, r, colour, url) {
-  // properties of a circle
-  this.x = x;
-  this.y = y;
-  this.r = r;
-  this.colour = colour;
-  this.draw = function(ctx, size, offset_x, offset_y, color, index) {
-      x = Math.floor(((this.x + 1.0) * size) + offset_x);
-      y = Math.floor(((this.y + 1.0) * size) + offset_y);
-      r = Math.abs(Math.floor(size * this.r))
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0,2*Math.PI);
-      if (!index)
-          ctx.fillStyle = "white";  // main circle background color
-      else
-          ctx.fillStyle = color;
-
-      ctx.fill();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = 'white';
-      ctx.stroke();
-
-      if (r > 25 && index > 0)
-      { 
-          html = '<div id="c' + index + '" class="circle-div shrink border-fade" style="top: ' 
-                         + (y - r)
-                         + 'px; left: ' 
-                         + (x - r)
-                         + 'px; border-radius: ' 
-                         + (r-2)
-                         + 'px; width: ' 
-                         + ((r * 2) - 4)
-                         + 'px; height: ' 
-                         + ((r * 2) - 4)
-                         + 'px"></div>';
-          return { "id" : index, "size" : r, "html" : html }; 
-      }
-      else
-          return false;
+    return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
   };
-} 
-
-function flickr()
-{
-    $(".flickr-div").css('background-image', 'url({{ images['mayhem']['url'] }})');
-    if ({{ images['mayhem']['landscape'] }})
-        $(".flickr-div").addClass('landscape-div')
-    else
-        $(".flickr-div").addClass('portrait-div')
-
 }
 
-function hair()
+$(document).ready(function() 
 {
-    $(".hair-div").css('background-image', 'url({{ images['hair']['url'] }})');
-    if ({{ images['hair']['landscape'] }})
-        $(".hair-div").addClass('landscape-div')
-    else
-        $(".hair-div").addClass('portrait-div')
-}
+    init();
+});
 
-function twitter(circle_size)
+$(window).resize(function() 
 {
-    font_size = Math.floor(circle_size / 7.5);
-    $(".twitter-div").html('<div id="tweet" style="font-size: ' + font_size + 'px"><div id="tweet-header">@MayhemBCN</div>{{ twat }}</div>');
-}
+    force.stop();
+    force = null;
+    d3.select("svg").remove();
+    init();
+});
+
 </script>
-</body>
-</html>

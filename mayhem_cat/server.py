@@ -17,48 +17,14 @@ app = Flask(__name__,
 @app.route('/')
 def index():
     try:
-        with open(os.path.join(config.CACHE_DIR, "twat"), "r") as f:
-            twat = f.read().strip()
-    except IOError:
-        twat = "No tweets! What??"
-
-    images = {}
-    try:
-        with open(os.path.join(config.CACHE_DIR, "mayhem_url"), "r") as f:
-            mayhem_url = f.readline().strip()
-            mayhem_l = int(f.readline().strip())
-        images['mayhem'] = { 'landscape' : mayhem_l, 'url' : mayhem_url }
-    except IOError:
-        pass
-
-    try:
-        with open(os.path.join(config.CACHE_DIR, "hair_url"), "r") as f:
-            hair_url = f.readline().strip()
-            hair_l = int(f.readline().strip())
-        images['hair'] = { 'landscape' : hair_l, 'url' : hair_url }
-    except IOError:
-        pass
-
-    try:
         with open(os.path.join(TEMPLATE_FOLDER, "content.json"), "r") as f:
             d = f.read()
             print d
             content = json.loads(d)
     except IOError:
         content = {}
-    
-    return render_template("index", twat = twat, images = images, content = content)
+    return render_template("index", content=content)
 
-@app.route('/alt')
-def alt():
-    try:
-        with open(os.path.join(TEMPLATE_FOLDER, "content-alt.json"), "r") as f:
-            d = f.read()
-            print d
-            content = json.loads(d)
-    except IOError:
-        content = {}
-    return render_template("alt", content=content)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=8081)
