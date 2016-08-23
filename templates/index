@@ -3,7 +3,7 @@
   <head>
     <title>Benvinguts a mayhem.cat!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="static/css/mayhem.cat.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/mayhem.cat.css">
     <link rel="icon" type="image/png" href="/static/img/mayhem.cat.png" />
   </head>
   <body>
