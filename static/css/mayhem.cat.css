@@ -72,19 +72,45 @@ html, body {
 }
 
 .musicbrainz-div {
-    background-image: url('/static/img/musicbrainz.png');
+    background-image: url('/static/img/musicbrainz.svg');
+    background-color: white;
+    background-size: 100%;
+}
+
+.metabrainz-div {
+    background-image: url('/static/img/metabrainz.svg');
     background-color: white;
     background-size: 100%;
 }
 
 .hair-div {
-    background-image: url('/static/img/flickr.gif');
+    background-image: url('/static/img/hair.jpg');
     background-color: white;
+    background-size: 100%;
+}
+
+.linkedin-div {
+    background-image: url('/static/img/linkedin.png');
+    background-color: white;
+    background-size: 100%;
+}
+
+.facebook-div {
+    background-image: url('/static/img/facebook.png');
+    background-color: white;
+    background-size: 100%;
 }
 
 .flickr-div {
     background-image: url('/static/img/flickr.gif');
     background-color: white;
+    background-size: 100%;
+}
+`
+.thingiverse-div {
+    background-image: url('/static/img/thingiverse.jpg');
+    background-color: white;
+    background-size: 100%;
 }
 
 .twitter-div {

@@ -1,9 +1,57 @@
 [ 
-    { "div" : "flickr",        "url" : "http://flickr.com/photos/mayhem" }, 
-    { "div" : "hair",          "url" : "https://www.flickr.com/photos/mayhem/sets/72157621208033122/" },
-    { "div" : "twitter",       "url" : "http://twitter.com/MayhemBCN" },
-    { "div" : "rob-aleta",     "url" : "http://bcnftw.es" },
-    { "div" : "musicbrainz",   "url" : "http://musicbrainz.org" },
-    { "div" : "github",        "url" : "http://github.com/mayhem" },
-    { "div" : "fsm",           "url" : "http://www.venganza.org" }
+    { 
+        "div" : "flickr",        
+        "img" : "flick.png",
+        "url" : "http://flickr.com/photos/mayhem" 
+    }, 
+    { 
+        "div" : "hair",          
+        "img" : "hair.jpg",
+        "url" : "https://www.flickr.com/photos/mayhem/sets/72157621208033122/" 
+    },
+    { 
+        "div" : "twitter",       
+        "img" : "twitter.png",
+        "url" : "http://twitter.com/MayhemBCN" 
+    },
+    { 
+        "div" : "rob-aleta",     
+        "img" : "aleta-n-rob.jpg",
+        "url" : "http://bcnftw.es" 
+    },
+    { 
+        "div" : "musicbrainz",   
+        "img" : "musicbrainz.svg",
+        "url" : "http://musicbrainz.org" 
+    },
+    { 
+        "div" : "metabrainz",    
+        "img" : "metabrainz.svg",
+        "url" : "http://metabrainz.org" 
+    },
+    { 
+        "div" : "github",        
+        "img" : "octocat.jpg",
+        "url" : "http://github.com/mayhem" 
+    },
+    { 
+        "div" : "linkedin",        
+        "img" : "linkedin.png",
+        "url" : "https://linkedin.com/in/kayerobert" 
+    },
+    { 
+        "div" : "facebook",        
+        "img" : "facebook.png",
+        "url" : "http://www.facebook.com/mayhemchaos" 
+    },
+    { 
+        "div" : "thingiverse",        
+        "img" : "thingiverse.jpg",
+        "url" : "https://www.thingiverse.com/mayhem/about" 
+    },
+    { 
+        "div" : "fsm",           
+        "img" : "fsm.png",
+        "url" : "http://www.venganza.org" 
+    }
 ]
