@@ -212,7 +212,8 @@ function draw_fractal(ctx, size, offset_x, offset_y) {
       {% if co.div == 'twitter' %}
           twitter_size = divs[{{ loop.index0 }}].size;
       {% endif %}
-      $("#overlay").append('<a href="{{co.url}}" target="_blank">' + divs[{{ loop.index0 }}].html + '</a>')
+      $("#overlay").append('<a href="{{co.url}}" target="_blank">' + divs[{{ loop.index0 }}].html + 
+                           '</a>')
       $("#c" + divs[{{ loop.index0 }}].id).addClass('{{ co.div }}' + "-div");
   {% endfor %}
   flickr();

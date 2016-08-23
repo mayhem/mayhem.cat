@@ -51,7 +51,14 @@ def index():
 
 @app.route('/alt')
 def alt():
-    return render_template("alt")
+    try:
+        with open(os.path.join(TEMPLATE_FOLDER, "content-alt.json"), "r") as f:
+            d = f.read()
+            print d
+            content = json.loads(d)
+    except IOError:
+        content = {}
+    return render_template("alt", content=content)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=8081)

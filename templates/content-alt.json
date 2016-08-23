@@ -1,0 +1,9 @@
+[ 
+    { "div" : "flickr",        "url" : "http://flickr.com/photos/mayhem" }, 
+    { "div" : "hair",          "url" : "https://www.flickr.com/photos/mayhem/sets/72157621208033122/" },
+    { "div" : "twitter",       "url" : "http://twitter.com/MayhemBCN" },
+    { "div" : "rob-aleta",     "url" : "http://bcnftw.es" },
+    { "div" : "musicbrainz",   "url" : "http://musicbrainz.org" },
+    { "div" : "github",        "url" : "http://github.com/mayhem" },
+    { "div" : "fsm",           "url" : "http://www.venganza.org" }
+]
