@@ -165,9 +165,9 @@ function make_div(index, url, r, x, y)
                    + 'px; border-radius: ' 
                    + (r-2)
                    + 'px; width: ' 
-                   + ((r * 2) - 4)
+                   + ((r * 2) - 3)
                    + 'px; height: ' 
-                   + ((r * 2) - 4)
+                   + ((r * 2) - 3)
                    + 'px"></div>';
     html += '</a>';
 
