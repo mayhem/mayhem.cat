@@ -1,7 +1,7 @@
-[ 
+[  
     { 
         "div" : "flickr",        
-        "img" : "flickr.png",
+        "img" : "flickr.gif",
         "url" : "http://flickr.com/photos/mayhem" 
     }, 
     { 
@@ -13,11 +13,6 @@
         "div" : "twitter",       
         "img" : "twitter.png",
         "url" : "http://twitter.com/MayhemBCN" 
-    },
-    { 
-        "div" : "rob-aleta",     
-        "img" : "aleta-n-rob.jpg",
-        "url" : "http://bcnftw.es" 
     },
     { 
         "div" : "musicbrainz",   
@@ -35,14 +30,9 @@
         "url" : "http://github.com/mayhem" 
     },
     { 
-        "div" : "linkedin",        
-        "img" : "linkedin.png",
-        "url" : "https://linkedin.com/in/kayerobert" 
-    },
-    { 
-        "div" : "facebook",        
-        "img" : "facebook.png",
-        "url" : "http://www.facebook.com/mayhemchaos" 
+        "div" : "thingiverse",
+        "img" : "thingiverse.jpg",
+        "url" : "https://www.thingiverse.com/mayhem/about" 
     },
     { 
         "div" : "medium",
@@ -50,13 +40,33 @@
         "url" : "https://medium.com/@mayhembcn" 
     },
     { 
-        "div" : "thingiverse",
-        "img" : "thingiverse.jpg",
-        "url" : "https://www.thingiverse.com/mayhem/about" 
+        "div" : "facebook",        
+        "img" : "facebook.png",
+        "url" : "http://www.facebook.com/mayhemchaos" 
+    },
+    { 
+        "div" : "rob-aleta",     
+        "img" : "aleta-n-rob.jpg",
+        "url" : "http://bcnftw.es" 
+    },
+    { 
+        "div" : "cocktailbird",
+        "img" : "cocktailbird.png",
+        "url" : "http://cocktailbird.de" 
+    },
+    { 
+        "div" : "strava",
+        "img" : "strava.jpg",
+        "url" : "https://www.strava.com/athletes/5404" 
     },
     { 
         "div" : "fsm",           
         "img" : "fsm.png",
         "url" : "http://www.venganza.org" 
+    },
+    { 
+        "div" : "linkedin",        
+        "img" : "linkedin.png",
+        "url" : "https://linkedin.com/in/kayerobert" 
     }
 ]

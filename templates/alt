@@ -64,6 +64,9 @@ function init()
     width = $( document ).width(),
     height = $( document ).height();
 
+    min_circle_size = width / 15;
+    avg_circle_size = width / 20;
+
     nodes = d3.range(num_circles).map(
         function() 
         { 
@@ -141,13 +144,16 @@ function init()
         });
 
         {% for co in content %}
-            html = make_div({{ loop.index0 }}, 
-                            '{{ co.url }}',
-                            divs[{{ loop.index0 }}].r,
-                            divs[{{ loop.index0 }}].x,
-                            divs[{{ loop.index0 }}].y);
-            $("#overlay").append(html);
-            $("#c{{ loop.index0 }}").css('background-image', 'url(/static/img/{{ co.img }})');
+            if ({{ loop.index0 }} < {{ content|length }})
+            {
+                html = make_div({{ loop.index0 }}, 
+                                '{{ co.url }}',
+                                divs[{{ loop.index0 }}].r,
+                                divs[{{ loop.index0 }}].x,
+                                divs[{{ loop.index0 }}].y);
+                $("#overlay").append(html);
+                $("#c{{ loop.index0 }}").css('background-image', 'url(/static/img/{{ co.img }})');
+            }
         {% endfor %}
         {% for co in content %}
             $("#c{{ loop.index0 }}").show('fast');
