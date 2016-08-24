@@ -114,7 +114,8 @@ function init()
 
       tick_count++;
       alpha = (1.0 - (tick_count / target_tick)) * (start_alpha - end_alpha);
-      force.alpha(alpha);
+      if (tick_count % 10 == 0 || alpha < 0)
+          force.alpha(alpha);
     });
 
     force.on("end", function(e)
