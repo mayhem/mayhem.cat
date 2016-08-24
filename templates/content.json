@@ -1,21 +1,15 @@
 [  
     { 
-        "div" : "flickr",        
-        "img" : "flickr.gif",
-        "url" : "http://flickr.com/photos/mayhem",
-        "alt" : "Flickr photos"
-    }, 
-    { 
         "div" : "hair",          
         "img" : "hair.jpg",
         "url" : "https://www.flickr.com/photos/mayhem/sets/72157621208033122/", 
         "alt" : "My funky haircuts"
     },
     { 
-        "div" : "twitter",       
-        "img" : "twitter.png",
-        "url" : "http://twitter.com/MayhemBCN", 
-        "alt" : "Twitter profile"
+        "div" : "medium",
+        "img" : "medium.png",
+        "url" : "https://medium.com/@mayhembcn", 
+        "alt" : "My ramblings on Medium"
     },
     { 
         "div" : "musicbrainz",   
@@ -36,34 +30,34 @@
         "alt" : "My software on Github"
     },
     { 
+        "div" : "twitter",       
+        "img" : "twitter.png",
+        "url" : "http://twitter.com/MayhemBCN", 
+        "alt" : "Twitter profile"
+    },
+    { 
+        "div" : "flickr",        
+        "img" : "flickr.gif",
+        "url" : "http://flickr.com/photos/mayhem",
+        "alt" : "Flickr photos"
+    }, 
+    { 
+        "div" : "cocktailbird",
+        "img" : "cocktailbird.png",
+        "url" : "http://cocktailbird.de", 
+        "alt" : "Cocktailbird -- Cocktail Robots"
+    },
+    { 
         "div" : "thingiverse",
         "img" : "thingiverse.jpg",
         "url" : "https://www.thingiverse.com/mayhem/about",
         "alt" : "Things I'vew designed on Thingiverse"
     },
     { 
-        "div" : "medium",
-        "img" : "medium.png",
-        "url" : "https://medium.com/@mayhembcn", 
-        "alt" : "My ramblings on Medium"
-    },
-    { 
         "div" : "facebook",        
         "img" : "facebook.png",
         "url" : "http://www.facebook.com/mayhemchaos", 
         "alt" : "My Facebook page"
-    },
-    { 
-        "div" : "rob-aleta",     
-        "img" : "aleta-n-rob.jpg",
-        "url" : "http://bcnftw.es", 
-        "alt" : "Rob and Aleta's Blog"
-    },
-    { 
-        "div" : "cocktailbird",
-        "img" : "cocktailbird.png",
-        "url" : "http://cocktailbird.de", 
-        "alt" : "Cocktailbird -- Cocktail Robots"
     },
     { 
         "div" : "strava",
@@ -76,6 +70,12 @@
         "img" : "fsm.png",
         "url" : "http://www.venganza.org", 
         "alt" : "Flying Spaghetti Monster!"
+    },
+    { 
+        "div" : "rob-aleta",     
+        "img" : "aleta-n-rob.jpg",
+        "url" : "http://bcnftw.es", 
+        "alt" : "Rob and Aleta's Blog"
     },
     { 
         "div" : "linkedin",        
