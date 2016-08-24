@@ -157,7 +157,7 @@ function init()
             }
         {% endfor %}
         {% for co in content %}
-            $("#c{{ loop.index0 }}").show('fast');
+            setTimeout( function () { $("#c{{ loop.index0 }}").show('fast'); }, {{ loop.index0 }} * 50); 
         {% endfor %}
     });
 } 
@@ -170,7 +170,7 @@ function make_div(index, url, r, x, y, alt)
                    + 'px; left: ' 
                    + (x - r)
                    + 'px; border-radius: ' 
-                   + (r-2)
+                   + r
                    + 'px; width: ' 
                    + ((r * 2) - 2)
                    + 'px; height: ' 
