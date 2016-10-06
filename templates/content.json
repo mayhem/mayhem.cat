@@ -48,10 +48,16 @@
         "alt" : "Cocktailbird -- Cocktail Robots"
     },
     { 
-        "div" : "thingiverse",
-        "img" : "thingiverse.jpg",
-        "url" : "https://www.thingiverse.com/mayhem/about",
-        "alt" : "Things I'vew designed on Thingiverse"
+        "div" : "water to wine",
+        "img" : "watertowine.png",
+        "url" : "https://www.youtube.com/watch?v=Gia1HzkdTlk",
+        "alt" : "Water to Wine hack"
+    },
+    { 
+        "div" : "party robotics",
+        "img" : "partyrobotics.png",
+        "url" : "http://partyrobotics.com",
+        "alt" : "party robotics"
     },
     { 
         "div" : "facebook",        
@@ -64,6 +70,12 @@
         "img" : "strava.jpg",
         "url" : "https://www.strava.com/athletes/5404", 
         "alt" : "My Strava feed"
+    },
+    { 
+        "div" : "thingiverse",
+        "img" : "thingiverse.jpg",
+        "url" : "https://www.thingiverse.com/mayhem/about",
+        "alt" : "Things I'vew designed on Thingiverse"
     },
     { 
         "div" : "fsm",           
