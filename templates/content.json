@@ -42,10 +42,10 @@
         "alt" : "Flickr photos"
     }, 
     { 
-        "div" : "cocktailbird",
-        "img" : "cocktailbird.png",
-        "url" : "http://cocktailbird.de", 
-        "alt" : "Cocktailbird -- Cocktail Robots"
+        "div" : "instagram",
+        "img" : "instagram.jpg",
+        "url" : "https://www.instagram.com/mayhemcha0s/", 
+        "alt" : "Instagram photos"
     },
     { 
         "div" : "water to wine",
@@ -66,12 +66,6 @@
         "alt" : "My Facebook page"
     },
     { 
-        "div" : "strava",
-        "img" : "strava.jpg",
-        "url" : "https://www.strava.com/athletes/5404", 
-        "alt" : "My Strava feed"
-    },
-    { 
         "div" : "thingiverse",
         "img" : "thingiverse.jpg",
         "url" : "https://www.thingiverse.com/mayhem/about",
@@ -82,12 +76,6 @@
         "img" : "fsm.png",
         "url" : "http://www.venganza.org", 
         "alt" : "Flying Spaghetti Monster!"
-    },
-    { 
-        "div" : "rob-aleta",     
-        "img" : "aleta-n-rob.jpg",
-        "url" : "http://bcnftw.es", 
-        "alt" : "Rob and Aleta's Blog"
     },
     { 
         "div" : "linkedin",        
