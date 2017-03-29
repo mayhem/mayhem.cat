@@ -15,7 +15,7 @@
 
 var num_circles = 50;
 var min_circle_size = 50;
-var avg_circle_size = 100;
+var avg_circle_size = 85; 
 
 var width, height, nodes, force, svg; 
 
