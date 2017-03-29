@@ -6,12 +6,6 @@
         "alt" : "My funky haircuts"
     },
     { 
-        "div" : "medium",
-        "img" : "medium.png",
-        "url" : "https://medium.com/@mayhembcn", 
-        "alt" : "My ramblings on Medium"
-    },
-    { 
         "div" : "musicbrainz",   
         "img" : "musicbrainz.svg",
         "url" : "http://musicbrainz.org", 
@@ -22,6 +16,12 @@
         "img" : "metabrainz.svg",
         "url" : "http://metabrainz.org", 
         "alt" : "MetaBrainz --- MetaBrainz Foundation"
+    },
+    { 
+        "div" : "instagram",
+        "img" : "instagram.jpg",
+        "url" : "https://www.instagram.com/mayhemcha0s/", 
+        "alt" : "Instagram photos"
     },
     { 
         "div" : "github",        
@@ -36,16 +36,28 @@
         "alt" : "Twitter profile"
     },
     { 
+        "div" : "huesound",
+        "img" : "huesound.png",
+        "url" : "http://huesound.org", 
+        "alt" : "Huesound"
+    },
+    { 
+        "div" : "medium",
+        "img" : "medium.png",
+        "url" : "https://medium.com/@mayhembcn", 
+        "alt" : "My ramblings on Medium"
+    },
+    { 
         "div" : "flickr",        
         "img" : "flickr.gif",
         "url" : "http://flickr.com/photos/mayhem",
         "alt" : "Flickr photos"
     }, 
-    { 
-        "div" : "instagram",
-        "img" : "instagram.jpg",
-        "url" : "https://www.instagram.com/mayhemcha0s/", 
-        "alt" : "Instagram photos"
+    {
+        "div" : "party robotics",
+        "img" : "partyrobotics.jpg",
+        "url" : "http://partyrobotics.com",
+        "alt" : "party robotics"
     },
     { 
         "div" : "water to wine",
