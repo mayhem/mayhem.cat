@@ -39,7 +39,7 @@
         "div" : "huesound",
         "img" : "huesound.png",
         "url" : "http://huesound.org", 
-        "alt" : "Huesound"
+        "alt" : "Huesound -- a project from Music Hack Day SF"
     },
     { 
         "div" : "medium",
@@ -51,19 +51,19 @@
         "div" : "flickr",        
         "img" : "flickr.gif",
         "url" : "http://flickr.com/photos/mayhem",
-        "alt" : "Flickr photos"
+        "alt" : "Flickr photos (old)"
     }, 
     {
         "div" : "party robotics",
         "img" : "partyrobotics.jpg",
         "url" : "http://partyrobotics.com",
-        "alt" : "party robotics"
+        "alt" : "party robotics -- one of the companies I co-founded."
     },
     { 
         "div" : "water to wine",
         "img" : "watertowine.png",
         "url" : "https://www.youtube.com/watch?v=Gia1HzkdTlk",
-        "alt" : "Water to Wine hack"
+        "alt" : "Water to Wine hack with Pierre Michael"
     },
     { 
         "div" : "facebook",        

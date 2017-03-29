@@ -13,9 +13,9 @@
 <script type="text/javascript" src="/static/js/rgbhsv.js"></script>
 <script>
 
-var num_circles = 50;
-var min_circle_size = 50;
-var avg_circle_size = 85; 
+var num_circles = 75;
+var min_circle_size;
+var avg_circle_size; 
 
 var width, height, nodes, force, svg; 
 
@@ -64,8 +64,16 @@ function init()
     width = $( document ).width(),
     height = $( document ).height();
 
-    min_circle_size = width / 15;
-    avg_circle_size = width / 20;
+    if (width > height)
+    {
+        min_circle_size = width / 15;
+        avg_circle_size = width / 40;
+    }
+    else
+    {
+        min_circle_size = height / 15;
+        avg_circle_size = height / 40;
+    }
 
     nodes = d3.range(num_circles).map(
         function() 
