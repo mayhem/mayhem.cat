@@ -1,0 +1,27 @@
+version: "2"
+
+volumes:
+  postgres:
+
+services:
+
+  nginx:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro 
+
+  web:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: mayhem.cat
+    expose:
+      - "3031"
+    volumes:
+      - ..:/code/mayhem.cat:z
+    depends_on:
+      - nginx
+    environment:
+      - VIRTUAL_HOST=mayhem.cat
