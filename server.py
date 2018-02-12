@@ -3,11 +3,10 @@
 import os
 import json
 from flask import Flask, render_template
-import config
 
 STATIC_PATH = "/static"
-STATIC_FOLDER = "../static"
-TEMPLATE_FOLDER = "../templates"
+STATIC_FOLDER = "static"
+TEMPLATE_FOLDER = "templates"
 
 app = Flask(__name__,
             static_url_path = STATIC_PATH,
@@ -19,7 +18,6 @@ def index():
     try:
         with open(os.path.join(TEMPLATE_FOLDER, "content.json"), "r") as f:
             d = f.read()
-            print d
             content = json.loads(d)
     except IOError:
         content = {}
