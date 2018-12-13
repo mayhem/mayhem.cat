@@ -14,7 +14,7 @@ RUN mkdir /code/mayhem.cat
 WORKDIR /code/mayhem.cat
 
 COPY requirements.txt /code/mayhem.cat/
-RUN pip3.6 install -r requirements.txt
+RUN pip3.6 install --no-cache-dir -r requirements.txt
 
 # Now install our code, which may change frequently
 COPY . /code/mayhem.cat/
