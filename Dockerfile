@@ -16,6 +16,10 @@ WORKDIR /code/mayhem.cat
 COPY requirements.txt /code/mayhem.cat/
 RUN pip3.6 install -r requirements.txt
 
+RUN apt-get purge -y build-essential && \
+    apt-get autoremove -y && \
+    apt-get clean -y
+
 # Now install our code, which may change frequently
 COPY . /code/mayhem.cat/
 

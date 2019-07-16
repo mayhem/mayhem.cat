@@ -8,4 +8,4 @@ docker run -d \
     --env "LETSENCRYPT_HOST=mayhem.cat" \
     --env "LETSENCRYPT_EMAIL=mayhem@gmail.com" \
     --network=website-network \
-    stash:beta
+    mayhem.cat:beta
