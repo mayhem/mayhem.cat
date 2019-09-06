@@ -18,6 +18,12 @@
         "alt" : "MetaBrainz --- MetaBrainz Foundation"
     },
     { 
+        "div" : "mayhem",
+        "img" : "mayhem.png",
+        "url" : "https://mayhem.cat", 
+        "alt" : "mayhem.cat"
+    },
+    { 
         "div" : "instagram",
         "img" : "instagram.jpg",
         "url" : "https://www.instagram.com/mayhemcha0s/", 
@@ -34,12 +40,6 @@
         "img" : "twitter.png",
         "url" : "http://twitter.com/MayhemBCN", 
         "alt" : "Twitter profile"
-    },
-    { 
-        "div" : "huesound",
-        "img" : "huesound.png",
-        "url" : "http://huesound.org", 
-        "alt" : "Huesound -- a project from Music Hack Day SF"
     },
     { 
         "div" : "medium",
