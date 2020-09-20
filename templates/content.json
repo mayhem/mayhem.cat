@@ -6,6 +6,12 @@
         "alt" : "My funky haircuts"
     },
     { 
+        "div" : "wearebeautiful",   
+        "img" : "wab-logo.png",
+        "url" : "https://wearebeautiful.info", 
+        "alt" : "We Are Beautiful!"
+    },
+    { 
         "div" : "musicbrainz",   
         "img" : "musicbrainz.svg",
         "url" : "http://musicbrainz.org", 
