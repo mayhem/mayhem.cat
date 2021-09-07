@@ -10,8 +10,8 @@ services:
     volumes:
       - .:/code/mayhem.cat:z
     environment:
-      - VIRTUAL_HOST=mayhem.cat
-      - LETSENCRYPT_HOST=mayhem.cat
+      - VIRTUAL_HOST=test.mayhem.cat
+      - LETSENCRYPT_HOST=test.mayhem.cat
       - LETSENCRYPT_EMAIL=mayhem@gmail.com
 
 networks:
