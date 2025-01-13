@@ -9,6 +9,7 @@ services:
       - "3031"
     volumes:
       - .:/code/mayhem.cat:z
+    restart: unless-stopped
     environment:
       - VIRTUAL_HOST=mayhem.cat
       - LETSENCRYPT_HOST=mayhem.cat
