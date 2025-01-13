@@ -6,10 +6,10 @@
         "alt" : "My funky haircuts"
     },
     { 
-        "div" : "wearebeautiful",   
+        "div" : "hiddenbeauty",   
         "img" : "wab-logo.png",
-        "url" : "https://wearebeautiful.info", 
-        "alt" : "We Are Beautiful!"
+        "url" : "https://hiddenbeauty.ch", 
+        "alt" : "Hidden Beauty"
     },
     { 
         "div" : "musicbrainz",   
@@ -22,6 +22,12 @@
         "img" : "metabrainz.svg",
         "url" : "http://metabrainz.org", 
         "alt" : "MetaBrainz --- MetaBrainz Foundation"
+    },
+    { 
+        "div" : "listenbrainz",    
+        "img" : "listenbrainz.svg",
+        "url" : "http://listenbrainz.org/usr/rob", 
+        "alt" : "ListenBrainz"
     },
     { 
         "div" : "mayhem",
@@ -42,16 +48,16 @@
         "alt" : "My software on Github"
     },
     { 
-        "div" : "twitter",       
-        "img" : "twitter.png",
-        "url" : "http://twitter.com/MayhemBCN", 
-        "alt" : "Twitter profile"
+        "div" : "bluesky",       
+        "img" : "bluesky.svg",
+        "url" : "https://bsky.app/profile/mayhemchaos.bsky.social", 
+        "alt" : "Bluesky profile"
     },
     { 
-        "div" : "medium",
-        "img" : "medium.png",
-        "url" : "https://medium.com/@mayhembcn", 
-        "alt" : "My ramblings on Medium"
+        "div" : "cosy",
+        "img" : "cosy.svg",
+        "url" : "https://cosypolyamory.org", 
+        "alt" : "Cosy Polyamory"
     },
     { 
         "div" : "flickr",        
